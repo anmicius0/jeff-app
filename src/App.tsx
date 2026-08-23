@@ -629,21 +629,21 @@ export function App() {
         {activeTab === 'workout' ? (
           <>
             {/* Session Momentum & Progress Bar */}
-            <div className="bg-surface-1 border border-hairline p-4 space-y-3">
+            <div className="bg-surface-1 border border-hairline p-3 sm:p-4 space-y-2.5 sm:space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-white animate-pulse" />
-                  <span className="font-display tracking-wider text-lg text-white uppercase truncate max-w-[140px] sm:max-w-none">
+                <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                  <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white animate-pulse shrink-0" />
+                  <span className="font-display tracking-wider text-base sm:text-lg text-white uppercase truncate max-w-[120px] xs:max-w-[200px] sm:max-w-none">
                     {currentDay.name}
                   </span>
-                  <span className="text-[10px] font-mono font-bold text-ink-subtle px-2 py-0.5 rounded-full bg-surface-2 border border-hairline whitespace-nowrap uppercase">
-                    C{currentCycle} · W{currentWeek}
+                  <span className="text-[9px] sm:text-[10px] font-mono font-bold text-ink-subtle px-1.5 sm:px-2 py-0.5 rounded-full bg-surface-2 border border-hairline whitespace-nowrap uppercase shrink-0">
+                    C{currentCycle}·W{currentWeek}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 font-mono text-xs">
+                <div className="flex items-center gap-1.5 sm:gap-2 font-mono text-xs ml-auto">
                   <span className="text-white font-bold">{sessionProgressPct}%</span>
                   <span className="text-ink-tertiary">·</span>
-                  <span className="text-ink-muted">
+                  <span className="text-ink-muted whitespace-nowrap">
                     {completedExercisesCount}/{currentDay.exercises.length} <span className="hidden xs:inline">Ex</span>
                     <span className="hidden sm:inline"> ({totalLoggedSetsInDay}/{totalWorkingSetsInDay} Sets)</span>
                   </span>
@@ -660,23 +660,23 @@ export function App() {
             </div>
 
             {/* MANUAL WORKOUT SELECTOR BAR (Direct Self-Switching Week & Day) */}
-            <div className="bg-surface-1 border border-hairline p-4 space-y-3">
+            <div className="bg-surface-1 border border-hairline p-3 sm:p-4 space-y-3">
               {/* Week Stepper & Direct 1-10 Pills */}
-              <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center justify-between gap-1.5 sm:gap-2">
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     type="button"
                     onClick={() => handleStepWeek(-1)}
                     disabled={currentWeek <= 1 && currentCycle <= 1}
-                    className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 disabled:opacity-30 border border-hairline text-white transition flex items-center justify-center active:scale-95"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-2 hover:bg-surface-3 disabled:opacity-30 border border-hairline text-white transition flex items-center justify-center active:scale-95"
                     title="Previous Week"
                   >
-                    <ChevronLeft className="w-4 h-4" />
+                    <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                   <button
                     type="button"
                     onClick={() => setIsWeekSelectorOpen(true)}
-                    className="text-xs font-mono font-bold px-3 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-white whitespace-nowrap transition cursor-pointer active:scale-95 uppercase tracking-wider"
+                    className="text-[11px] sm:text-xs font-mono font-bold px-2.5 sm:px-3 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-white whitespace-nowrap transition cursor-pointer active:scale-95 uppercase tracking-wider"
                     title="Change Cycle or Week"
                   >
                     C{currentCycle}·W{currentWeek}
@@ -684,10 +684,10 @@ export function App() {
                   <button
                     type="button"
                     onClick={() => handleStepWeek(+1)}
-                    className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 disabled:opacity-30 border border-hairline text-white transition flex items-center justify-center active:scale-95"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-2 hover:bg-surface-3 disabled:opacity-30 border border-hairline text-white transition flex items-center justify-center active:scale-95"
                     title="Next Week"
                   >
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </button>
                 </div>
 

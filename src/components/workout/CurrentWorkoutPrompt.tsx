@@ -329,47 +329,47 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
         </div>
 
         {/* 3-Column Target Metrics Block */}
-        <div className="bg-surface-2 border border-hairline p-3.5 sm:p-4">
-          <div className="grid grid-cols-3 gap-2 text-center divide-x divide-hairline">
+        <div className="bg-surface-2 border border-hairline p-3 sm:p-4">
+          <div className="grid grid-cols-3 gap-1 sm:gap-2 text-center divide-x divide-hairline">
             <div className="px-1 min-w-0">
-              <span className="block text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
+              <span className="block text-[9px] sm:text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
                 Target Reps
               </span>
-              <span className="text-lg sm:text-xl font-display tracking-wider text-white mt-0.5 block truncate">
+              <span className="text-base sm:text-xl font-display tracking-wider text-white mt-0.5 block truncate">
                 {exercise.reps}
               </span>
-              <span className="text-[10px] text-ink-tertiary font-mono block mt-0.5">
+              <span className="text-[9px] sm:text-[10px] text-ink-tertiary font-mono block mt-0.5 truncate">
                 hypertrophy
               </span>
             </div>
 
             <div className="px-1 min-w-0">
-              <span className="block text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
+              <span className="block text-[9px] sm:text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
                 Target Effort
               </span>
-              <span className="text-lg sm:text-xl font-display tracking-wider text-white mt-0.5 block truncate">
+              <span className="text-base sm:text-xl font-display tracking-wider text-white mt-0.5 block truncate">
                 RPE {currentTargetRpe}
               </span>
-              <span className="text-[10px] text-ink-tertiary font-mono block mt-0.5">
+              <span className="text-[9px] sm:text-[10px] text-ink-tertiary font-mono block mt-0.5 truncate">
                 {isCurrentSetLastSet ? 'Final Set' : 'Early Sets'}
               </span>
             </div>
 
             <div className="px-1 min-w-0">
               <div className="flex items-center justify-center gap-1">
-                <Sparkles className="w-3 h-3 text-white shrink-0" />
-                <span className="block text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
-                  Suggested Load
+                <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white shrink-0" />
+                <span className="block text-[9px] sm:text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
+                  Suggested
                 </span>
               </div>
-              <span className="text-lg sm:text-xl font-mono font-bold text-white mt-0.5 block truncate">
-                {recommendedWeight} <span className="text-xs font-normal text-ink-subtle font-sans">kg</span>
+              <span className="text-base sm:text-xl font-mono font-bold text-white mt-0.5 block truncate">
+                {recommendedWeight}<span className="text-[10px] sm:text-xs font-normal text-ink-subtle font-sans">kg</span>
               </span>
-              <div className="flex items-center justify-center gap-1 mt-0.5">
-                {adaptiveRec.trend === 'increase' && <TrendingUp className="w-3 h-3 text-success shrink-0" />}
-                {adaptiveRec.trend === 'decrease' && <TrendingDown className="w-3 h-3 text-sale shrink-0" />}
+              <div className="flex items-center justify-center gap-0.5 mt-0.5">
+                {adaptiveRec.trend === 'increase' && <TrendingUp className="w-2.5 h-2.5 text-success shrink-0" />}
+                {adaptiveRec.trend === 'decrease' && <TrendingDown className="w-2.5 h-2.5 text-sale shrink-0" />}
                 <span
-                  className={`text-[10px] font-mono truncate ${
+                  className={`text-[9px] sm:text-[10px] font-mono truncate max-w-full ${
                     adaptiveRec.trend === 'increase'
                       ? 'text-success font-semibold'
                       : adaptiveRec.trend === 'decrease'
@@ -387,19 +387,19 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
 
         {/* Minimal Acclimation Set (Before Working Set 1) */}
         {completedSets.length === 0 && (
-          <div className="flex items-center justify-between px-3.5 py-2.5 bg-surface-2 border border-hairline text-xs font-mono">
-            <div className="flex items-center gap-2 truncate pr-2">
+          <div className="flex flex-wrap items-center justify-between gap-2 px-3 py-2 sm:px-3.5 sm:py-2.5 bg-surface-2 border border-hairline text-xs font-mono">
+            <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
               <Flame className="w-3.5 h-3.5 text-sale shrink-0" />
-              <span className="text-white font-semibold uppercase tracking-wider">Acclimation:</span>
-              <span className="text-white font-bold">{minimalWarmupWeight}kg × 8</span>
-              <span className="text-[10px] text-ink-tertiary">(~50%)</span>
+              <span className="text-white font-semibold uppercase tracking-wider text-[11px] sm:text-xs whitespace-nowrap">Warm-Up:</span>
+              <span className="text-white font-bold text-[11px] sm:text-xs whitespace-nowrap">{minimalWarmupWeight}kg × 8</span>
+              <span className="text-[10px] text-ink-tertiary hidden xs:inline">(~50%)</span>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0 ml-auto">
               <button
                 type="button"
                 onClick={() => onOpenRestTimer(60)}
-                className="px-2.5 py-1 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-[11px] text-ink-subtle hover:text-white flex items-center gap-1 transition active:scale-95"
+                className="px-2.5 py-1 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-[10px] sm:text-[11px] text-ink-subtle hover:text-white flex items-center gap-1 transition active:scale-95"
                 title="Start 60s warm-up rest"
               >
                 <Clock className="w-3 h-3" />
@@ -413,7 +413,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                     if ('vibrate' in navigator) navigator.vibrate(30);
                   } catch {}
                 }}
-                className={`px-3 py-1 rounded-full border text-[11px] font-medium transition active:scale-95 ${
+                className={`px-2.5 sm:px-3 py-1 rounded-full border text-[10px] sm:text-[11px] font-medium transition active:scale-95 ${
                   isWarmupDone
                     ? 'bg-success/20 border-success text-success font-bold'
                     : 'bg-surface-3 hover:bg-surface-4 border-hairline text-ink-muted'
@@ -554,42 +554,43 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
             <button
               type="button"
               onClick={handleCompleteCurrentSet}
-              className="w-full min-h-[48px] py-3 px-6 bg-white hover:bg-neutral-200 active:scale-[0.98] text-black font-sans font-bold text-sm rounded-full transition duration-150 flex flex-col sm:flex-row items-center justify-between gap-2 shadow-lg cursor-pointer uppercase tracking-wider"
+              className="w-full min-h-[48px] py-3 px-4 sm:px-6 bg-white hover:bg-neutral-200 active:scale-[0.98] text-black font-sans font-bold text-xs sm:text-sm rounded-full transition duration-150 flex items-center justify-between gap-2 shadow-lg cursor-pointer uppercase tracking-wider"
             >
-              <div className="flex items-center gap-2">
-                <Check className="w-5 h-5 stroke-[2.5]" />
-                <span>
+              <div className="flex items-center gap-2 truncate">
+                <Check className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] shrink-0" />
+                <span className="truncate">
                   {editingSetIndex !== null
                     ? `Save Set ${editingSetIndex + 1}`
                     : `Log Set ${currentSetIndex + 1} of ${exercise.workingSets}`}
                 </span>
               </div>
-              <span className="font-mono text-xs px-3 py-1 rounded-full bg-black/10 text-black font-semibold">
-                {inputWeight}kg × {inputReps} reps · {parseRestSeconds(exercise.rest) / 60}m rest
+              <span className="font-mono text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-full bg-black/10 text-black font-semibold shrink-0 whitespace-nowrap">
+                {inputWeight}kg × {inputReps}
               </span>
             </button>
           </div>
         ) : (
-          <div className="p-5 bg-surface-2 border border-hairline text-center space-y-4">
-            <div className="text-sm font-semibold text-white flex items-center justify-center gap-2 uppercase tracking-wider">
-              <Check className="w-4 h-4 text-success stroke-[3]" /> Exercise Completed ({completedSets.length} Sets Logged)
+          <div className="p-4 sm:p-5 bg-surface-2 border border-hairline text-center space-y-3 sm:space-y-4">
+            <div className="text-xs sm:text-sm font-semibold text-white flex items-center justify-center gap-2 uppercase tracking-wider">
+              <Check className="w-4 h-4 text-success stroke-[3] shrink-0" />
+              <span>Exercise Completed ({completedSets.length} Sets Logged)</span>
             </div>
-            <div className="flex gap-3">
+            <div className="flex gap-2 sm:gap-3">
               <button
                 type="button"
                 onClick={() => handleEditSet(completedSets.length - 1)}
-                className="flex-1 h-11 bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-medium text-xs rounded-full transition flex items-center justify-center gap-2 active:scale-95 uppercase tracking-wider"
+                className="flex-1 h-11 bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-medium text-xs rounded-full transition flex items-center justify-center gap-1.5 active:scale-95 uppercase tracking-wider truncate px-2"
               >
-                <Edit2 className="w-3.5 h-3.5" />
-                <span>Edit Last Set</span>
+                <Edit2 className="w-3.5 h-3.5 shrink-0" />
+                <span className="truncate">Edit Last Set</span>
               </button>
               <button
                 type="button"
                 onClick={onNextExercise}
-                className="flex-1 h-11 bg-white hover:bg-neutral-200 text-black font-bold text-xs rounded-full transition flex items-center justify-center gap-2 active:scale-95 shadow-md uppercase tracking-wider"
+                className="flex-1 h-11 bg-white hover:bg-neutral-200 text-black font-bold text-xs rounded-full transition flex items-center justify-center gap-1.5 active:scale-95 shadow-md uppercase tracking-wider truncate px-2"
               >
-                <span>{isLastExerciseInDay ? 'Finish Session' : 'Next Exercise'}</span>
-                <ArrowRight className="w-4 h-4" />
+                <span className="truncate">{isLastExerciseInDay ? 'Finish Session' : 'Next Exercise'}</span>
+                <ArrowRight className="w-3.5 h-3.5 shrink-0" />
               </button>
             </div>
           </div>
