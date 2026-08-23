@@ -881,7 +881,8 @@ export function App() {
 
       {activeExercise && rawActiveExercise && (
         <ExerciseSubstitutionModal
-          exercise={activeExercise}
+          exercise={rawActiveExercise}
+          currentExerciseName={activeExercise.name}
           isOpen={isSubstitutionOpen}
           onClose={() => setIsSubstitutionOpen(false)}
           onSelectAlternative={(newName) => {
