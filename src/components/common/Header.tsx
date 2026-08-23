@@ -19,7 +19,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenWarmupGuide,
 }) => {
   return (
-    <header className="sticky top-0 z-40 w-full h-14 bg-canvas/95 backdrop-blur-md border-b border-hairline px-3 sm:px-6 flex items-center justify-between gap-2">
+    <header className="sticky top-0 z-40 w-full header-safe bg-canvas/95 backdrop-blur-md border-b border-hairline px-3 sm:px-6 flex items-center justify-between gap-2">
       {/* Brand & Program info */}
       <div className="flex items-center gap-2 shrink-0">
         <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-2 border border-hairline flex items-center justify-center text-white shrink-0">

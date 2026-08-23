@@ -101,6 +101,18 @@
   .apple-num-tick {
     animation: number-tick 0.09s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
+
+  /* Safe Area Inset Injections for iOS (Notch, Dynamic Island & Home Bar) */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .header-safe {
+    padding-top: max(env(safe-area-inset-top, 0px), 0px);
+    height: calc(3.5rem + env(safe-area-inset-top, 0px));
+  }
 }
 
 @keyframes apple-pop {
