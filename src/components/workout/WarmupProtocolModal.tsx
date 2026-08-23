@@ -14,7 +14,7 @@ export const WarmupProtocolModal: React.FC<WarmupProtocolModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-canvas/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-surface-1 border border-hairline-strong max-w-lg w-full p-5 sm:p-6 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl">
+      <div className="bg-surface-1 border border-hairline-strong max-w-lg w-full p-5 sm:p-6 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl animate-scale-in">
         <div className="flex items-center justify-between border-b border-hairline pb-3">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-full bg-surface-2 flex items-center justify-center text-sale">
@@ -27,7 +27,7 @@ export const WarmupProtocolModal: React.FC<WarmupProtocolModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white transition active:scale-95"
+            className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white apple-press cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -93,7 +93,7 @@ export const WarmupProtocolModal: React.FC<WarmupProtocolModalProps> = ({
         <div className="pt-2">
           <button
             onClick={onClose}
-            className="w-full py-3 bg-white hover:bg-neutral-200 text-black rounded-full text-xs font-bold uppercase tracking-wider transition active:scale-95 shadow-md cursor-pointer"
+            className="w-full py-3 bg-white hover:bg-neutral-200 text-black rounded-full text-xs font-bold uppercase tracking-wider apple-press shadow-md cursor-pointer"
           >
             Got it
           </button>

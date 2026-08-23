@@ -38,7 +38,7 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
         ];
 
   return (
-    <div className="fixed inset-0 z-50 bg-canvas/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 bg-canvas/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-scale-in">
       <div className="bg-surface-1 border border-hairline-strong max-w-lg w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
         {/* Modal Header */}
         <div className="p-4 border-b border-hairline flex items-center justify-between bg-surface-2/60">
@@ -61,7 +61,7 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white transition active:scale-95"
+            className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white apple-press cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -82,9 +82,9 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
                     key={wp.category}
                     type="button"
                     onClick={() => setSelectedCategory(wp.category)}
-                    className={`px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider transition flex items-center justify-between active:scale-95 ${
+                    className={`px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider apple-press flex items-center justify-between cursor-pointer ${
                       isSelected
-                        ? 'bg-white text-black border-white shadow-sm'
+                        ? 'bg-white text-black border-white shadow-sm font-bold'
                         : 'bg-surface-1 hover:bg-surface-3 border border-hairline text-ink-muted hover:text-white'
                     }`}
                   >
@@ -114,7 +114,7 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
                       onSelectExercise(opt);
                       onClose();
                     }}
-                    className={`w-full p-3.5 border text-left transition flex items-center justify-between group active:scale-95 ${
+                    className={`w-full p-3.5 border text-left apple-card-press flex items-center justify-between group cursor-pointer ${
                       isCurrent
                         ? 'bg-surface-2 border-white text-white'
                         : 'bg-surface-1 hover:bg-surface-2 border-hairline text-white'
@@ -153,7 +153,7 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-full bg-surface-3 hover:bg-surface-4 text-white transition text-xs font-semibold uppercase tracking-wider active:scale-95"
+            className="px-4 py-2 rounded-full bg-surface-3 hover:bg-surface-4 text-white text-xs font-semibold uppercase tracking-wider apple-press cursor-pointer"
           >
             Cancel
           </button>

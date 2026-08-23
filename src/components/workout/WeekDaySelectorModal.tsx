@@ -35,7 +35,7 @@ export const WeekDaySelectorModal: React.FC<WeekDaySelectorModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-canvas/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-surface-1 border border-hairline-strong max-w-lg w-full p-5 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl">
+      <div className="bg-surface-1 border border-hairline-strong max-w-lg w-full p-5 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl animate-scale-in">
         <div className="flex items-center justify-between border-b border-hairline pb-3">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-full bg-surface-2 flex items-center justify-center text-white">
@@ -48,7 +48,7 @@ export const WeekDaySelectorModal: React.FC<WeekDaySelectorModalProps> = ({
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white transition active:scale-95"
+            className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white apple-press cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -71,7 +71,7 @@ export const WeekDaySelectorModal: React.FC<WeekDaySelectorModalProps> = ({
                 key={c}
                 type="button"
                 onClick={() => setSelectedCycleNum(c)}
-                className={`px-4 py-2 rounded-full text-xs font-mono font-bold uppercase tracking-wider border transition shrink-0 active:scale-95 ${
+                className={`px-4 py-2 rounded-full text-xs font-mono font-bold uppercase tracking-wider border shrink-0 apple-press cursor-pointer ${
                   selectedCycleNum === c
                     ? 'bg-white text-black border-white shadow-sm'
                     : 'bg-surface-2 hover:bg-surface-3 border-hairline text-ink-muted hover:text-white'
@@ -94,7 +94,7 @@ export const WeekDaySelectorModal: React.FC<WeekDaySelectorModalProps> = ({
                 key={w.weekNumber}
                 type="button"
                 onClick={() => setSelectedWeekNum(w.weekNumber)}
-                className={`py-2.5 rounded-full text-xs font-mono font-bold border transition active:scale-95 ${
+                className={`py-2.5 rounded-full text-xs font-mono font-bold border apple-press cursor-pointer ${
                   selectedWeekNum === w.weekNumber
                     ? 'bg-white text-black border-white'
                     : 'bg-surface-2 hover:bg-surface-3 border-hairline text-ink-muted hover:text-white'
@@ -134,12 +134,12 @@ export const WeekDaySelectorModal: React.FC<WeekDaySelectorModalProps> = ({
                       onClose();
                     }
                   }}
-                  className={`w-full text-left p-3.5 border transition text-xs font-semibold uppercase tracking-wider flex items-center justify-between active:scale-95 ${
+                  className={`w-full text-left p-3.5 border text-xs font-semibold uppercase tracking-wider flex items-center justify-between ${
                     d.isRestDay
                       ? 'opacity-40 bg-surface-1/50 border-hairline text-ink-tertiary cursor-not-allowed'
                       : isSelected
-                      ? 'bg-surface-2 border-white text-white'
-                      : 'bg-surface-1 hover:bg-surface-2 border-hairline text-ink-muted hover:text-white cursor-pointer'
+                      ? 'bg-surface-2 border-white text-white apple-card-press'
+                      : 'bg-surface-1 hover:bg-surface-2 border-hairline text-ink-muted hover:text-white cursor-pointer apple-card-press'
                   }`}
                 >
                   <div className="flex items-center gap-3">

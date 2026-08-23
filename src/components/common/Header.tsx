@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({
         <button
           type="button"
           onClick={onOpenWeekSelector}
-          className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-xs text-white transition active:scale-95 min-w-0 shrink"
+          className="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-xs text-white apple-press min-w-0 shrink cursor-pointer"
         >
           <Calendar className="w-3.5 h-3.5 text-ink-muted shrink-0 hidden xs:inline" />
           <span className="font-mono font-bold text-white text-[11px] sm:text-xs whitespace-nowrap">C{currentCycle}·W{currentWeek}</span>
@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({
           type="button"
           onClick={onOpenWarmupGuide}
           title="General Warm-up Guide"
-          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-muted hover:text-white flex items-center justify-center transition active:scale-95 shrink-0"
+          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-muted hover:text-white flex items-center justify-center apple-press shrink-0 cursor-pointer"
         >
           <Layers className="w-3.5 h-3.5" />
         </button>
