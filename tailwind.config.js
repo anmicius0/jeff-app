@@ -80,6 +80,18 @@ export default {
         'apple-ease': 'cubic-bezier(0.25, 0.1, 0.25, 1)',
       },
       keyframes: {
+        'backdrop-fade': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        },
+        'modal-pop': {
+          '0%': { opacity: '0', transform: 'scale(0.95) translateY(-8px)' },
+          '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
+        },
+        'sheet-slide-down': {
+          '0%': { opacity: '0', transform: 'translateY(-16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
         'scale-in': {
           '0%': { opacity: '0', transform: 'scale(0.98)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
@@ -111,6 +123,9 @@ export default {
         },
       },
       animation: {
+        'backdrop-fade': 'backdrop-fade 0.15s ease-out forwards',
+        'modal-pop': 'modal-pop 0.16s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'sheet-slide-down': 'sheet-slide-down 0.16s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'scale-in': 'scale-in 0.12s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'fade-slide-up': 'fade-slide-up 0.14s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         'fade-slide-down': 'fade-slide-down 0.14s cubic-bezier(0.16, 1, 0.3, 1) forwards',

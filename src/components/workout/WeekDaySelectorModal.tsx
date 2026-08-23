@@ -34,8 +34,8 @@ export const WeekDaySelectorModal: React.FC<WeekDaySelectorModalProps> = ({
   const cycleOptions = Array.from({ length: Math.max(selectedCycleNum + 1, 3) }, (_, i) => i + 1);
 
   return (
-    <div className="fixed inset-0 z-50 bg-canvas/80 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-surface-1 border border-hairline-strong max-w-lg w-full p-5 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl animate-scale-in">
+    <div className="fixed inset-0 z-50 bg-canvas/80 backdrop-blur-sm flex items-center justify-center p-4 animate-backdrop-fade">
+      <div className="bg-surface-1 border border-hairline-strong max-w-lg w-full p-5 space-y-4 max-h-[85vh] overflow-y-auto shadow-2xl animate-modal-pop">
         <div className="flex items-center justify-between border-b border-hairline pb-3">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-full bg-surface-2 flex items-center justify-center text-white">
