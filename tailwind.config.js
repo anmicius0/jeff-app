@@ -74,6 +74,50 @@ export default {
         xxl: '30px',
         section: '48px',
       },
+      transitionTimingFunction: {
+        'spring-smooth': 'cubic-bezier(0.16, 1, 0.3, 1)',
+        'spring-snappy': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'apple-ease': 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+      },
+      keyframes: {
+        'scale-in': {
+          '0%': { opacity: '0', transform: 'scale(0.96)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        'fade-slide-up': {
+          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'fade-slide-down': {
+          '0%': { opacity: '0', transform: 'translateY(-12px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'tap-pop': {
+          '0%': { transform: 'scale(1)' },
+          '50%': { transform: 'scale(0.92)' },
+          '100%': { transform: 'scale(1)' },
+        },
+        'number-tick': {
+          '0%': { opacity: '0.4', transform: 'translateY(-4px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'pulse-subtle': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.4' },
+        },
+        'shimmer': {
+          '0%': { backgroundPosition: '-200% 0' },
+          '100%': { backgroundPosition: '200% 0' },
+        },
+      },
+      animation: {
+        'scale-in': 'scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-slide-up': 'fade-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-slide-down': 'fade-slide-down 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'tap-pop': 'tap-pop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'number-tick': 'number-tick 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
+        'pulse-subtle': 'pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
     },
   },
   plugins: [],

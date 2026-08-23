@@ -598,15 +598,15 @@ export function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-4xl w-full mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6 pb-24">
-        {/* Navigation Tabs (Athletic High-Contrast Pill tab) */}
+        {/* Navigation Tabs (Athletic High-Contrast Pill tab with Spring Easing) */}
         <div className="flex justify-center">
-          <div className="inline-flex p-1 rounded-full bg-surface-1 border border-hairline">
+          <div className="inline-flex p-1 rounded-full bg-surface-1 border border-hairline shadow-sm">
             <button
               onClick={() => setActiveTab('workout')}
-              className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition duration-150 flex items-center gap-2 active:scale-95 cursor-pointer ${
+              className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-200 ease-spring-smooth flex items-center gap-2 active:scale-95 cursor-pointer select-none ${
                 activeTab === 'workout'
-                  ? 'bg-white text-black shadow-md'
-                  : 'text-ink-subtle hover:text-white'
+                  ? 'bg-white text-black shadow-md font-bold'
+                  : 'text-ink-subtle hover:text-white hover:bg-surface-2'
               }`}
             >
               <Dumbbell className="w-3.5 h-3.5" />
@@ -614,10 +614,10 @@ export function App() {
             </button>
             <button
               onClick={() => setActiveTab('progress')}
-              className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition duration-150 flex items-center gap-2 active:scale-95 cursor-pointer ${
+              className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-200 ease-spring-smooth flex items-center gap-2 active:scale-95 cursor-pointer select-none ${
                 activeTab === 'progress'
-                  ? 'bg-white text-black shadow-md'
-                  : 'text-ink-subtle hover:text-white'
+                  ? 'bg-white text-black shadow-md font-bold'
+                  : 'text-ink-subtle hover:text-white hover:bg-surface-2'
               }`}
             >
               <TrendingUp className="w-3.5 h-3.5" />

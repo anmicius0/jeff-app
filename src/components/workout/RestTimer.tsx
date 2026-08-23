@@ -69,13 +69,13 @@ export const RestTimer: React.FC<RestTimerProps> = ({
   // Minimized floating pill mode
   if (isMinimized) {
     return (
-      <div className="fixed bottom-5 right-5 z-50 animate-in fade-in slide-in-from-bottom-2 duration-200">
+      <div className="fixed bottom-5 right-5 z-50 animate-fade-slide-up duration-200">
         <div
           onClick={() => setIsMinimized(false)}
-          className="cursor-pointer flex items-center gap-3 px-4 py-2.5 rounded-full bg-surface-2 border border-white/20 shadow-2xl backdrop-blur-md hover:border-white transition group"
+          className="cursor-pointer flex items-center gap-3 px-4 py-2.5 rounded-full bg-surface-2 border border-white/20 shadow-2xl backdrop-blur-md hover:border-white transition-all duration-200 active:scale-95 ease-spring-snappy group"
         >
           <span className={`w-2.5 h-2.5 rounded-full ${isFinished ? 'bg-success animate-bounce' : isRunning ? 'bg-white animate-pulse' : 'bg-ink-subtle'}`} />
-          <span className="font-display tracking-widest text-lg text-white">
+          <span className="font-display tracking-widest text-lg text-white font-mono">
             {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
           </span>
           <button
@@ -84,10 +84,10 @@ export const RestTimer: React.FC<RestTimerProps> = ({
               e.stopPropagation();
               setIsMinimized(false);
             }}
-            className="w-7 h-7 rounded-full bg-surface-3 hover:bg-surface-4 flex items-center justify-center text-ink-subtle hover:text-white transition"
+            className="w-7 h-7 rounded-full bg-surface-3 hover:bg-surface-4 active:bg-white active:text-black flex items-center justify-center text-ink-subtle hover:text-white transition-all duration-150 active:scale-90"
             title="Expand Timer"
           >
-            <Maximize2 className="w-3 h-3" />
+            <Maximize2 className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
@@ -95,11 +95,11 @@ export const RestTimer: React.FC<RestTimerProps> = ({
   }
 
   return (
-    <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto z-50 animate-in fade-in slide-in-from-bottom-4 duration-200">
-      <div className="bg-surface-1 border border-hairline-strong p-5 shadow-2xl space-y-4 relative overflow-hidden backdrop-blur-xl">
+    <div className="fixed bottom-4 left-4 right-4 max-w-md mx-auto z-50 animate-fade-slide-up duration-200">
+      <div className="bg-surface-1/95 border border-hairline-strong p-5 shadow-2xl space-y-4 relative overflow-hidden backdrop-blur-2xl">
         {/* Progress Bar Line */}
         <div
-          className={`absolute bottom-0 left-0 h-1 transition-all duration-300 ${isFinished ? 'bg-success' : 'bg-white'}`}
+          className={`absolute bottom-0 left-0 h-1.5 transition-all duration-300 ease-linear ${isFinished ? 'bg-success' : 'bg-white'}`}
           style={{ width: `${progressPercent}%` }}
         />
 
@@ -116,7 +116,7 @@ export const RestTimer: React.FC<RestTimerProps> = ({
             <button
               type="button"
               onClick={() => setIsMinimized(true)}
-              className="w-7 h-7 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white transition"
+              className="w-7 h-7 rounded-full bg-surface-2 hover:bg-surface-3 active:bg-surface-4 flex items-center justify-center text-ink-subtle hover:text-white transition-all duration-150 active:scale-90"
               title="Minimize to floating pill"
             >
               <Minimize2 className="w-3.5 h-3.5" />
@@ -124,10 +124,10 @@ export const RestTimer: React.FC<RestTimerProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="w-7 h-7 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white transition"
-              title="Dismiss timer"
+              className="w-7 h-7 rounded-full bg-surface-2 hover:bg-surface-3 active:bg-surface-4 flex items-center justify-center text-ink-subtle hover:text-white transition-all duration-150 active:scale-90"
+              title="Close Timer"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
