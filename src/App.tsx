@@ -604,7 +604,7 @@ export function App() {
           <TabSwitch
             tabs={[
               { id: 'workout', label: 'Live Workout', icon: <Dumbbell className="w-3.5 h-3.5" /> },
-              { id: 'progress', label: 'Progression History', icon: <TrendingUp className="w-3.5 h-3.5" /> },
+              { id: 'progress', label: 'Progression', icon: <TrendingUp className="w-3.5 h-3.5" /> },
             ]}
             activeTab={activeTab}
             onChange={(id) => setActiveTab(id as 'workout' | 'progress')}
