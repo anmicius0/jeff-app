@@ -4,27 +4,26 @@
 
 @layer base {
   :root {
-    --color-canvas: #010102;
-    --color-surface-1: #0f1011;
-    --color-surface-2: #141516;
-    --color-surface-3: #18191a;
-    --color-surface-4: #191a1b;
-    --color-hairline: #23252a;
-    --color-hairline-strong: #34343a;
-    --color-hairline-tertiary: #3e3e44;
-    --color-primary: #5e6ad2;
-    --color-primary-hover: #828fff;
-    --color-primary-focus: #5e69d1;
-    --color-ink: #f7f8f8;
-    --color-ink-muted: #d0d6e0;
-    --color-ink-subtle: #8a8f98;
-    --color-ink-tertiary: #62666d;
-    --color-semantic-success: #27a644;
+    --color-canvas: #0b0b0c;
+    --color-surface-1: #141416;
+    --color-surface-2: #1c1c1f;
+    --color-surface-3: #242428;
+    --color-surface-4: #2c2c32;
+    --color-hairline: #27272a;
+    --color-hairline-strong: #3f3f46;
+    --color-hairline-soft: #1f1f23;
+    --color-ink: #ffffff;
+    --color-ink-muted: #cacacb;
+    --color-ink-subtle: #9e9ea0;
+    --color-ink-tertiary: #707072;
+    --color-sale: #d30005;
+    --color-success: #1eaa52;
   }
 
   body {
     background-color: var(--color-canvas);
     color: var(--color-ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-tap-highlight-color: transparent;
   }
@@ -40,18 +39,18 @@
   }
 }
 
-/* Custom scrollbar for dark aesthetic */
+/* Custom scrollbar for athletic dark aesthetic */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-track {
-  background: #010102;
+  background: #0b0b0c;
 }
 ::-webkit-scrollbar-thumb {
-  background: #23252a;
+  background: #27272a;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #34343a;
+  background: #3f3f46;
 }

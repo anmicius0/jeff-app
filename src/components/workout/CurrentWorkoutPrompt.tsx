@@ -177,45 +177,45 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
 
   return (
     <div className="w-full space-y-4">
-      {/* Exercise Card: Surface 1 with hairline */}
-      <div className="rounded-lg bg-surface-1 border border-hairline p-4 sm:p-6 space-y-5 relative overflow-hidden shadow-2xl">
-        {/* Decorative Linear Top Border Accent */}
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-hairline-strong to-transparent" />
-
+      {/* Exercise Card: Flat 0px container sitting directly on dark surface */}
+      <div className="bg-surface-1 border border-hairline p-4 sm:p-6 space-y-5 relative overflow-hidden">
         {/* Title & Badge */}
-        <div className="space-y-2">
+        <div className="space-y-3">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h2 className="text-xl sm:text-2xl font-semibold tracking-tight text-ink">
+              <span className="text-[11px] font-mono tracking-widest text-ink-subtle uppercase block mb-1">
+                Exercise {currentSetIndex + 1 > exercise.workingSets ? exercise.workingSets : currentSetIndex + 1} Target
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-display uppercase tracking-wide text-white leading-tight">
                 {exercise.name}
               </h2>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="text-xs font-mono text-ink-subtle">
+              <div className="flex flex-wrap items-center gap-2 mt-1.5">
+                <span className="text-xs font-mono text-ink-muted">
                   {exercise.workingSets} Working Sets × {exercise.reps} Reps
                 </span>
                 <span className="text-ink-tertiary">·</span>
-                <span className="text-xs text-ink-subtle flex items-center gap-1">
+                <span className="text-xs text-ink-subtle flex items-center gap-1 font-mono">
                   <Clock className="w-3 h-3 text-ink-tertiary" /> {exercise.rest}
                 </span>
               </div>
             </div>
 
             {exercise.intensityTechnique && exercise.intensityTechnique !== 'N/A' && (
-              <span className="shrink-0 text-[11px] font-mono px-2.5 py-1 rounded-pill bg-surface-2 text-primary-hover border border-primary/30">
+              <span className="shrink-0 text-[11px] font-mono font-medium px-3 py-1 rounded-full bg-surface-2 text-white border border-hairline uppercase tracking-wider">
                 {exercise.intensityTechnique}
               </span>
             )}
           </div>
 
-          {/* Substitutions, Form Cues, Setup & Reset */}
+          {/* Action Pills: Substitutions, Form Cues, Setup & Reset */}
           <div className="flex flex-wrap items-center gap-2 pt-1">
             {onSelectWeakPoint && (
               <button
                 type="button"
                 onClick={onSelectWeakPoint}
-                className="text-[11px] px-2.5 py-0.5 rounded bg-primary/15 hover:bg-primary/25 border border-primary/40 text-primary-hover font-medium transition flex items-center gap-1 shadow-sm"
+                className="text-xs px-3.5 py-1.5 rounded-full bg-white text-black font-semibold uppercase tracking-wider hover:bg-neutral-200 transition flex items-center gap-1.5 active:scale-95 cursor-pointer"
               >
-                <Target className="w-3 h-3" />
+                <Target className="w-3.5 h-3.5" />
                 <span>Choose Weak Point</span>
               </button>
             )}
@@ -223,41 +223,41 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               <button
                 type="button"
                 onClick={onSelectSubstitution}
-                className="text-[11px] px-2 py-0.5 rounded bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-muted transition flex items-center gap-1"
+                className="text-xs px-3 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-muted hover:text-white transition flex items-center gap-1.5 active:scale-95"
               >
-                <Layers className="w-3 h-3 text-primary-hover" />
+                <Layers className="w-3.5 h-3.5 text-white" />
                 <span>Swap Exercise</span>
               </button>
             )}
             <button
               type="button"
               onClick={() => setShowNotes(!showNotes)}
-              className="text-[11px] px-2 py-0.5 rounded bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-muted transition flex items-center gap-1"
+              className="text-xs px-3 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-muted hover:text-white transition flex items-center gap-1 active:scale-95"
             >
               <span>Form Cues</span>
-              {showNotes ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              {showNotes ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5 text-ink-subtle" />}
             </button>
             <button
               type="button"
               onClick={() => setIsEditingSetup(!isEditingSetup)}
-              className={`text-[11px] px-2 py-0.5 rounded border transition flex items-center gap-1 ${
+              className={`text-xs px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 active:scale-95 ${
                 setupNotes
-                  ? 'bg-primary/15 border-primary/40 text-primary-hover font-medium'
-                  : 'bg-surface-2 hover:bg-surface-3 border-hairline text-ink-muted'
+                  ? 'bg-surface-3 border-white/40 text-white font-medium'
+                  : 'bg-surface-2 hover:bg-surface-3 border-hairline text-ink-muted hover:text-white'
               }`}
               title="Standardize seat, pin, bench angle, and attachment settings"
             >
-              <Sliders className="w-3 h-3" />
+              <Sliders className="w-3.5 h-3.5 text-white" />
               <span>{setupNotes ? `Setup: ${setupNotes}` : 'Pin / Seat Setup'}</span>
             </button>
             {completedSets.length > 0 && (
               <button
                 type="button"
                 onClick={onClearExerciseSets}
-                className="text-[11px] px-2 py-0.5 rounded bg-surface-2 hover:bg-red-950/40 border border-hairline hover:border-red-500/40 text-ink-tertiary hover:text-red-400 transition flex items-center gap-1 ml-auto"
+                className="text-xs px-3 py-1.5 rounded-full bg-surface-2 hover:bg-sale-deep/40 border border-hairline hover:border-sale/40 text-ink-subtle hover:text-sale transition flex items-center gap-1.5 ml-auto active:scale-95"
                 title="Reset all recorded sets for this exercise"
               >
-                <Trash2 className="w-3 h-3" />
+                <Trash2 className="w-3.5 h-3.5" />
                 <span>Reset Sets</span>
               </button>
             )}
@@ -265,13 +265,13 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
 
           {/* Machine & Setup Notes Quick Editor */}
           {isEditingSetup && (
-            <div className="p-3 rounded-lg bg-surface-2 border border-primary/40 space-y-2 animate-in fade-in">
+            <div className="p-3.5 bg-surface-2 border border-hairline-strong space-y-2.5 animate-in fade-in">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-ink flex items-center gap-1.5">
-                  <Sliders className="w-3.5 h-3.5 text-primary-hover" />
+                <span className="font-semibold text-white flex items-center gap-1.5">
+                  <Sliders className="w-3.5 h-3.5 text-white" />
                   <span>Machine / Pin / Bench Setup (Saved per exercise)</span>
                 </span>
-                <span className="text-[10px] text-ink-subtle">e.g., Seat 4, Pin #3, Prime handle</span>
+                <span className="text-[10px] text-ink-subtle font-mono">e.g., Seat 4, Pin #3</span>
               </div>
               <div className="flex gap-2">
                 <input
@@ -282,12 +282,12 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleSaveSetupNotes(setupNotes);
                   }}
-                  className="flex-1 bg-surface-3 border border-hairline-strong focus:border-primary text-ink rounded px-2.5 py-1.5 text-xs outline-none"
+                  className="flex-1 bg-surface-3 border border-hairline-strong focus:border-white text-white rounded-md px-3 py-2 text-xs outline-none"
                 />
                 <button
                   type="button"
                   onClick={() => handleSaveSetupNotes(setupNotes)}
-                  className="px-3 py-1.5 rounded bg-primary hover:bg-primary-hover text-on-primary text-xs font-medium transition"
+                  className="px-4 py-2 rounded-full bg-white hover:bg-neutral-200 text-black text-xs font-bold uppercase tracking-wider transition active:scale-95"
                 >
                   Save
                 </button>
@@ -296,10 +296,10 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
           )}
 
           {exercise.name.toLowerCase().includes('weak point') && onSelectWeakPoint && (
-            <div className="mt-2 p-3 rounded-lg bg-surface-2/90 border border-primary/30 flex items-center justify-between gap-3 shadow-inner">
+            <div className="mt-2 p-3.5 bg-surface-2 border border-hairline flex items-center justify-between gap-3">
               <div>
-                <div className="text-xs font-semibold text-ink flex items-center gap-1.5">
-                  <Target className="w-3.5 h-3.5 text-primary-hover" />
+                <div className="text-xs font-semibold text-white flex items-center gap-1.5">
+                  <Target className="w-3.5 h-3.5 text-white" />
                   <span>Choose Weak Point Focus</span>
                 </div>
                 <div className="text-[11px] text-ink-subtle mt-0.5">
@@ -309,7 +309,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               <button
                 type="button"
                 onClick={onSelectWeakPoint}
-                className="shrink-0 px-3 py-1.5 rounded-md bg-primary hover:bg-primary-hover text-white text-xs font-medium transition shadow-md"
+                className="shrink-0 px-4 py-2 rounded-full bg-white hover:bg-neutral-200 text-black text-xs font-bold uppercase tracking-wider transition active:scale-95"
               >
                 Select Focus
               </button>
@@ -317,7 +317,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
           )}
 
           {showNotes && (
-            <div className="mt-2 p-3 rounded-md bg-surface-2/80 border border-hairline text-xs text-ink-muted leading-relaxed animate-in fade-in">
+            <div className="mt-2 p-3.5 bg-surface-2 border border-hairline text-xs text-ink-muted leading-relaxed animate-in fade-in">
               {exercise.notes}
             </div>
           )}
@@ -328,52 +328,52 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
           </div>
         </div>
 
-        {/* Unified Target Hero Card */}
-        <div className="rounded-lg bg-surface-2 border border-hairline-strong p-3 sm:p-4 shadow-sm">
-          <div className="grid grid-cols-3 gap-1.5 sm:gap-2 text-center divide-x divide-hairline">
+        {/* 3-Column Target Metrics Block */}
+        <div className="bg-surface-2 border border-hairline p-3.5 sm:p-4">
+          <div className="grid grid-cols-3 gap-2 text-center divide-x divide-hairline">
             <div className="px-1 min-w-0">
-              <span className="block text-[9px] sm:text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
+              <span className="block text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
                 Target Reps
               </span>
-              <span className="text-sm sm:text-lg font-bold text-ink font-mono mt-0.5 block truncate">
+              <span className="text-lg sm:text-xl font-display tracking-wider text-white mt-0.5 block truncate">
                 {exercise.reps}
               </span>
-              <span className="text-[9px] sm:text-[10px] text-ink-tertiary font-mono block mt-0.5">
+              <span className="text-[10px] text-ink-tertiary font-mono block mt-0.5">
                 hypertrophy
               </span>
             </div>
 
             <div className="px-1 min-w-0">
-              <span className="block text-[9px] sm:text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
+              <span className="block text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
                 Target Effort
               </span>
-              <span className="text-sm sm:text-lg font-bold text-primary-hover font-mono mt-0.5 block truncate">
+              <span className="text-lg sm:text-xl font-display tracking-wider text-white mt-0.5 block truncate">
                 RPE {currentTargetRpe}
               </span>
-              <span className="text-[9px] sm:text-[10px] text-ink-tertiary font-mono block mt-0.5">
+              <span className="text-[10px] text-ink-tertiary font-mono block mt-0.5">
                 {isCurrentSetLastSet ? 'Final Set' : 'Early Sets'}
               </span>
             </div>
 
             <div className="px-1 min-w-0">
               <div className="flex items-center justify-center gap-1">
-                <Sparkles className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary-hover shrink-0" />
-                <span className="block text-[9px] sm:text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
+                <Sparkles className="w-3 h-3 text-white shrink-0" />
+                <span className="block text-[10px] text-ink-subtle uppercase tracking-wider font-mono truncate">
                   Suggested Load
                 </span>
               </div>
-              <span className="text-sm sm:text-lg font-bold text-ink font-mono mt-0.5 block truncate">
-                {recommendedWeight} <span className="text-[10px] sm:text-xs font-normal text-ink-subtle">kg</span>
+              <span className="text-lg sm:text-xl font-mono font-bold text-white mt-0.5 block truncate">
+                {recommendedWeight} <span className="text-xs font-normal text-ink-subtle font-sans">kg</span>
               </span>
-              <div className="flex items-center justify-center gap-0.5 mt-0.5">
-                {adaptiveRec.trend === 'increase' && <TrendingUp className="w-2.5 h-2.5 text-semantic-success shrink-0" />}
-                {adaptiveRec.trend === 'decrease' && <TrendingDown className="w-2.5 h-2.5 text-amber-400 shrink-0" />}
+              <div className="flex items-center justify-center gap-1 mt-0.5">
+                {adaptiveRec.trend === 'increase' && <TrendingUp className="w-3 h-3 text-success shrink-0" />}
+                {adaptiveRec.trend === 'decrease' && <TrendingDown className="w-3 h-3 text-sale shrink-0" />}
                 <span
-                  className={`text-[9px] sm:text-[10px] font-mono truncate ${
+                  className={`text-[10px] font-mono truncate ${
                     adaptiveRec.trend === 'increase'
-                      ? 'text-semantic-success font-medium'
+                      ? 'text-success font-semibold'
                       : adaptiveRec.trend === 'decrease'
-                      ? 'text-amber-400 font-medium'
+                      ? 'text-sale font-semibold'
                       : 'text-ink-subtle'
                   }`}
                   title={adaptiveRec.reason}
@@ -387,22 +387,22 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
 
         {/* Minimal Acclimation Set (Before Working Set 1) */}
         {completedSets.length === 0 && (
-          <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-surface-2/70 border border-hairline text-xs font-mono">
+          <div className="flex items-center justify-between px-3.5 py-2.5 bg-surface-2 border border-hairline text-xs font-mono">
             <div className="flex items-center gap-2 truncate pr-2">
-              <Flame className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-              <span className="text-ink font-medium">Acclimation:</span>
-              <span className="text-primary-hover font-bold">{minimalWarmupWeight}kg × 8</span>
+              <Flame className="w-3.5 h-3.5 text-sale shrink-0" />
+              <span className="text-white font-semibold uppercase tracking-wider">Acclimation:</span>
+              <span className="text-white font-bold">{minimalWarmupWeight}kg × 8</span>
               <span className="text-[10px] text-ink-tertiary">(~50%)</span>
             </div>
 
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex items-center gap-2 shrink-0">
               <button
                 type="button"
                 onClick={() => onOpenRestTimer(60)}
-                className="px-2 py-0.5 rounded bg-surface-3 hover:bg-surface-4 border border-hairline text-[10px] text-ink-subtle hover:text-ink flex items-center gap-1 transition"
+                className="px-2.5 py-1 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-[11px] text-ink-subtle hover:text-white flex items-center gap-1 transition active:scale-95"
                 title="Start 60s warm-up rest"
               >
-                <Clock className="w-2.5 h-2.5" />
+                <Clock className="w-3 h-3" />
                 <span>60s</span>
               </button>
               <button
@@ -413,9 +413,9 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                     if ('vibrate' in navigator) navigator.vibrate(30);
                   } catch {}
                 }}
-                className={`px-2 py-0.5 rounded border text-[10px] font-medium transition ${
+                className={`px-3 py-1 rounded-full border text-[11px] font-medium transition active:scale-95 ${
                   isWarmupDone
-                    ? 'bg-semantic-success/20 border-semantic-success/40 text-semantic-success'
+                    ? 'bg-success/20 border-success text-success font-bold'
                     : 'bg-surface-3 hover:bg-surface-4 border-hairline text-ink-muted'
                 }`}
               >
@@ -427,12 +427,12 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
 
         {/* Interactive Logging Panel */}
         {!isExerciseDone ? (
-          <div className="space-y-3 pt-1">
+          <div className="space-y-4 pt-1">
             {/* Set Tracker Header */}
             <div className="flex items-center justify-between text-xs pb-1 border-b border-hairline">
               <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-                <span className="font-semibold text-ink font-mono uppercase tracking-wider">
+                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                <span className="font-mono font-bold text-white uppercase tracking-wider text-xs">
                   {editingSetIndex !== null
                     ? `Editing Set ${editingSetIndex + 1}`
                     : `Set ${currentSetIndex + 1} of ${exercise.workingSets}`}
@@ -441,13 +441,13 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                   <button
                     type="button"
                     onClick={() => setEditingSetIndex(null)}
-                    className="text-ink-subtle hover:text-ink text-[11px] underline"
+                    className="text-ink-subtle hover:text-white text-xs underline ml-2"
                   >
                     Cancel
                   </button>
                 )}
               </div>
-              <span className="text-ink-subtle font-mono text-[11px]">
+              <span className="text-ink-subtle font-mono text-xs">
                 Target: RPE {currentTargetRpe}
               </span>
             </div>
@@ -455,16 +455,16 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
             {/* Steppers for Weight & Reps */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {/* Weight input with Steppers */}
-              <div className="p-3 rounded-lg bg-surface-2/80 border border-hairline space-y-2">
+              <div className="p-3.5 bg-surface-2 border border-hairline space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-[11px] font-medium text-ink-subtle font-mono">Weight (kg)</label>
+                  <label className="text-xs font-mono font-semibold text-ink-subtle uppercase tracking-wider">Weight (kg)</label>
                   <span className="text-[10px] font-mono text-ink-tertiary">Step ±2.5kg</span>
                 </div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setInputWeight((prev) => Math.max(0, Math.round((prev - 2.5) * 2) / 2))}
-                    className="w-10 h-10 rounded-md bg-surface-3 hover:bg-surface-4 border border-hairline text-ink font-mono text-lg font-bold flex items-center justify-center transition active:scale-95 cursor-pointer"
+                    className="w-11 h-11 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-mono text-xl font-bold flex items-center justify-center transition active:scale-90 cursor-pointer"
                     title="Minus 2.5kg"
                   >
                     -
@@ -474,25 +474,25 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                     step="0.5"
                     value={inputWeight}
                     onChange={(e) => setInputWeight(parseFloat(e.target.value) || 0)}
-                    className="flex-1 bg-surface-1 border border-hairline focus:border-primary focus:ring-1 focus:ring-primary text-ink rounded-md py-2 text-center text-2xl font-mono font-bold outline-none transition"
+                    className="flex-1 bg-surface-1 border border-hairline focus:border-white text-white rounded-md py-2.5 text-center text-2xl font-mono font-bold outline-none transition"
                   />
                   <button
                     type="button"
                     onClick={() => setInputWeight((prev) => Math.round((prev + 2.5) * 2) / 2)}
-                    className="w-10 h-10 rounded-md bg-surface-3 hover:bg-surface-4 border border-hairline text-ink font-mono text-lg font-bold flex items-center justify-center transition active:scale-95 cursor-pointer"
+                    className="w-11 h-11 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-mono text-xl font-bold flex items-center justify-center transition active:scale-90 cursor-pointer"
                     title="Plus 2.5kg"
                   >
                     +
                   </button>
                 </div>
                 {/* Plate quick buttons */}
-                <div className="flex gap-1 pt-0.5">
+                <div className="flex gap-1.5 pt-0.5">
                   {[-5, -2.5, +2.5, +5].map((delta) => (
                     <button
                       key={delta}
                       type="button"
                       onClick={() => setInputWeight((prev) => Math.max(0, prev + delta))}
-                      className="flex-1 py-1 text-[11px] font-mono bg-surface-3 hover:bg-surface-4 border border-hairline text-ink-subtle hover:text-ink rounded transition"
+                      className="flex-1 py-1 text-xs font-mono bg-surface-3 hover:bg-surface-4 border border-hairline text-ink-subtle hover:text-white rounded-md transition active:scale-95"
                     >
                       {delta > 0 ? `+${delta}` : delta}
                     </button>
@@ -501,16 +501,16 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               </div>
 
               {/* Reps input with Steppers */}
-              <div className="p-3 rounded-lg bg-surface-2/80 border border-hairline space-y-2">
+              <div className="p-3.5 bg-surface-2 border border-hairline space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-[11px] font-medium text-ink-subtle font-mono">Reps</label>
+                  <label className="text-xs font-mono font-semibold text-ink-subtle uppercase tracking-wider">Reps</label>
                   <span className="text-[10px] font-mono text-ink-tertiary">Target: {exercise.reps}</span>
                 </div>
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setInputReps((prev) => Math.max(1, prev - 1))}
-                    className="w-10 h-10 rounded-md bg-surface-3 hover:bg-surface-4 border border-hairline text-ink font-mono text-lg font-bold flex items-center justify-center transition active:scale-95 cursor-pointer"
+                    className="w-11 h-11 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-mono text-xl font-bold flex items-center justify-center transition active:scale-90 cursor-pointer"
                     title="Minus 1 rep"
                   >
                     -
@@ -519,28 +519,28 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                     type="number"
                     value={inputReps}
                     onChange={(e) => setInputReps(parseInt(e.target.value) || 0)}
-                    className="flex-1 bg-surface-1 border border-hairline focus:border-primary focus:ring-1 focus:ring-primary text-ink rounded-md py-2 text-center text-2xl font-mono font-bold outline-none transition"
+                    className="flex-1 bg-surface-1 border border-hairline focus:border-white text-white rounded-md py-2.5 text-center text-2xl font-mono font-bold outline-none transition"
                   />
                   <button
                     type="button"
                     onClick={() => setInputReps((prev) => prev + 1)}
-                    className="w-10 h-10 rounded-md bg-surface-3 hover:bg-surface-4 border border-hairline text-ink font-mono text-lg font-bold flex items-center justify-center transition active:scale-95 cursor-pointer"
+                    className="w-11 h-11 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-mono text-xl font-bold flex items-center justify-center transition active:scale-90 cursor-pointer"
                     title="Plus 1 rep"
                   >
                     +
                   </button>
                 </div>
                 {/* Common rep targets */}
-                <div className="flex gap-1 pt-0.5">
+                <div className="flex gap-1.5 pt-0.5">
                   {[8, 10, 12, 15].map((r) => (
                     <button
                       key={r}
                       type="button"
                       onClick={() => setInputReps(r)}
-                      className={`flex-1 py-1 text-[11px] font-mono border rounded transition ${
+                      className={`flex-1 py-1 text-xs font-mono border rounded-md transition active:scale-95 ${
                         inputReps === r
-                          ? 'bg-primary/20 border-primary text-primary-hover font-bold'
-                          : 'bg-surface-3 hover:bg-surface-4 border-hairline text-ink-subtle hover:text-ink'
+                          ? 'bg-white text-black font-bold border-white'
+                          : 'bg-surface-3 hover:bg-surface-4 border-hairline text-ink-subtle hover:text-white'
                       }`}
                     >
                       {r}
@@ -550,35 +550,35 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               </div>
             </div>
 
-            {/* High-Impact Log Set Button */}
+            {/* Universal Nike-Style White CTA Pill */}
             <button
               type="button"
               onClick={handleCompleteCurrentSet}
-              className="w-full min-h-[48px] py-2.5 px-3 sm:px-4 bg-primary hover:bg-primary-hover active:bg-primary-focus text-on-primary font-semibold text-xs sm:text-sm rounded-lg transition duration-150 flex flex-col sm:flex-row items-center justify-between gap-1.5 sm:gap-2 shadow-lg cursor-pointer group"
+              className="w-full min-h-[48px] py-3 px-6 bg-white hover:bg-neutral-200 active:scale-[0.98] text-black font-sans font-bold text-sm rounded-full transition duration-150 flex flex-col sm:flex-row items-center justify-between gap-2 shadow-lg cursor-pointer uppercase tracking-wider"
             >
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <Check className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
+              <div className="flex items-center gap-2">
+                <Check className="w-5 h-5 stroke-[2.5]" />
                 <span>
                   {editingSetIndex !== null
                     ? `Save Set ${editingSetIndex + 1}`
                     : `Log Set ${currentSetIndex + 1} of ${exercise.workingSets}`}
                 </span>
               </div>
-              <span className="font-mono text-[11px] sm:text-xs px-2 sm:px-2.5 py-0.5 sm:py-1 rounded bg-black/30 text-white font-normal group-hover:bg-black/40 transition">
+              <span className="font-mono text-xs px-3 py-1 rounded-full bg-black/10 text-black font-semibold">
                 {inputWeight}kg × {inputReps} reps · {parseRestSeconds(exercise.rest) / 60}m rest
               </span>
             </button>
           </div>
         ) : (
-          <div className="p-4 rounded-md bg-surface-2 border border-semantic-success/30 text-center space-y-3">
-            <div className="text-sm font-semibold text-semantic-success flex items-center justify-center gap-1.5">
-              <Check className="w-4 h-4" /> Exercise Completed! ({completedSets.length} Sets Logged)
+          <div className="p-5 bg-surface-2 border border-hairline text-center space-y-4">
+            <div className="text-sm font-semibold text-white flex items-center justify-center gap-2 uppercase tracking-wider">
+              <Check className="w-4 h-4 text-success stroke-[3]" /> Exercise Completed ({completedSets.length} Sets Logged)
             </div>
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <button
                 type="button"
                 onClick={() => handleEditSet(completedSets.length - 1)}
-                className="flex-1 h-9 bg-surface-3 hover:bg-surface-4 border border-hairline text-ink-muted hover:text-ink font-medium text-xs rounded-md transition flex items-center justify-center gap-1.5"
+                className="flex-1 h-11 bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-medium text-xs rounded-full transition flex items-center justify-center gap-2 active:scale-95 uppercase tracking-wider"
               >
                 <Edit2 className="w-3.5 h-3.5" />
                 <span>Edit Last Set</span>
@@ -586,19 +586,19 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               <button
                 type="button"
                 onClick={onNextExercise}
-                className="flex-1 h-9 bg-primary hover:bg-primary-hover text-on-primary font-medium text-xs rounded-md transition flex items-center justify-center gap-1.5"
+                className="flex-1 h-11 bg-white hover:bg-neutral-200 text-black font-bold text-xs rounded-full transition flex items-center justify-center gap-2 active:scale-95 shadow-md uppercase tracking-wider"
               >
                 <span>{isLastExerciseInDay ? 'Finish Session' : 'Next Exercise'}</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           </div>
         )}
 
-        {/* Set History Bubbles with Tap-to-Edit, Set Types & Intensity Tags */}
-        <div className="space-y-1.5 pt-2">
+        {/* Set History Bubbles with Tap-to-Edit */}
+        <div className="space-y-2 pt-2">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-mono text-ink-tertiary uppercase tracking-wider">
+            <span className="text-[10px] font-mono text-ink-subtle uppercase tracking-wider">
               Sets Logged (Tap to Edit / Delete)
             </span>
             {completedSets.length >= exercise.workingSets && (
@@ -609,7 +609,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                   setInputWeight(completedSets[completedSets.length - 1]?.weight || recommendedWeight);
                   setInputReps(defaultReps);
                 }}
-                className="text-[10px] font-mono text-primary-hover flex items-center gap-0.5 hover:underline"
+                className="text-[10px] font-mono text-white flex items-center gap-1 hover:underline uppercase tracking-wider"
               >
                 <Plus className="w-3 h-3" /> Add Extra Set
               </button>
@@ -627,13 +627,13 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                   onClick={() => {
                     if (logged) handleEditSet(idx);
                   }}
-                  className={`py-2 px-2 rounded-md border text-center text-xs font-mono transition relative group ${
+                  className={`py-2 px-2.5 border text-center text-xs font-mono transition relative group ${
                     logged
                       ? isBeingEdited
-                        ? 'bg-primary/20 border-primary text-primary-hover ring-1 ring-primary'
-                        : 'bg-surface-2 hover:bg-surface-3 border-hairline-strong text-ink cursor-pointer'
+                        ? 'bg-surface-3 border-white text-white ring-2 ring-white/50'
+                        : 'bg-surface-2 hover:bg-surface-3 border-hairline text-white cursor-pointer'
                       : isCurrent
-                      ? 'bg-surface-1 border-primary text-primary-hover ring-1 ring-primary/40'
+                      ? 'bg-surface-1 border-white text-white'
                       : 'bg-surface-1/40 border-hairline text-ink-tertiary'
                   }`}
                 >
@@ -647,17 +647,17 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                           onDeleteSet(idx);
                         }}
                         title="Delete set"
-                        className="opacity-0 group-hover:opacity-100 text-ink-subtle hover:text-red-400 transition"
+                        className="opacity-0 group-hover:opacity-100 text-ink-subtle hover:text-sale transition"
                       >
-                        <Trash2 className="w-2.5 h-2.5" />
+                        <Trash2 className="w-3 h-3" />
                       </button>
                     )}
                   </div>
-                  <div className="mt-0.5 font-medium">
+                  <div className="mt-1 font-bold text-white">
                     {logged ? `${logged.weight}k × ${logged.reps}` : '—'}
                   </div>
                   {logged?.techniqueDetail && (
-                    <div className="text-[9px] text-primary-hover font-mono truncate mt-0.5" title={logged.techniqueDetail}>
+                    <div className="text-[9px] text-ink-muted font-mono truncate mt-0.5" title={logged.techniqueDetail}>
                       {logged.techniqueDetail}
                     </div>
                   )}

@@ -39,17 +39,17 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 bg-canvas/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200">
-      <div className="bg-surface-1 border border-hairline-strong rounded-xl w-full max-w-lg overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+      <div className="bg-surface-1 border border-hairline-strong max-w-lg w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
         {/* Modal Header */}
         <div className="p-4 border-b border-hairline flex items-center justify-between bg-surface-2/60">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-md bg-primary/10 border border-primary/30 flex items-center justify-center text-primary-hover">
+            <div className="w-8 h-8 rounded-full bg-surface-3 flex items-center justify-center text-white">
               <Target className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-ink flex items-center gap-1.5">
+              <h3 className="text-base font-display uppercase tracking-wider text-white flex items-center gap-2">
                 <span>Select Weak Point Focus</span>
-                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-surface-3 text-ink-subtle border border-hairline">
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-surface-3 text-white border border-hairline uppercase">
                   {exerciseSlot}
                 </span>
               </h3>
@@ -61,20 +61,20 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-md text-ink-subtle hover:text-ink hover:bg-surface-3 transition"
+            className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white transition active:scale-95"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
 
-        {/* Modal Body: Two-pane or Stacked Muscle Group & Exercises */}
+        {/* Modal Body: Muscle Group & Exercises */}
         <div className="p-4 space-y-4 overflow-y-auto">
-          {/* Muscle Group Chips */}
-          <div className="space-y-1.5">
+          {/* Muscle Group Chips (Filter Chips) */}
+          <div className="space-y-2">
             <label className="text-[11px] font-mono text-ink-subtle uppercase tracking-wider block">
               1. Choose Muscle Group
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5 max-h-40 overflow-y-auto p-1 bg-surface-2/40 rounded-lg border border-hairline">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-44 overflow-y-auto p-1.5 bg-surface-2 border border-hairline">
               {WEAK_POINTS_DATA.map((wp) => {
                 const isSelected = wp.category === selectedCategory;
                 return (
@@ -82,14 +82,14 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
                     key={wp.category}
                     type="button"
                     onClick={() => setSelectedCategory(wp.category)}
-                    className={`px-2.5 py-2 rounded-md text-left text-xs font-medium transition flex items-center justify-between ${
+                    className={`px-3 py-2 text-left text-xs font-semibold uppercase tracking-wider transition flex items-center justify-between active:scale-95 ${
                       isSelected
-                        ? 'bg-surface-3 border border-primary text-ink shadow-sm ring-1 ring-primary/40'
-                        : 'bg-surface-1 hover:bg-surface-2 border border-hairline text-ink-muted hover:text-ink'
+                        ? 'bg-white text-black border-white shadow-sm'
+                        : 'bg-surface-1 hover:bg-surface-3 border border-hairline text-ink-muted hover:text-white'
                     }`}
                   >
                     <span className="truncate">{wp.category}</span>
-                    {isSelected && <Sparkles className="w-3 h-3 text-primary-hover shrink-0" />}
+                    {isSelected && <Sparkles className="w-3 h-3 text-black shrink-0" />}
                   </button>
                 );
               })}
@@ -103,7 +103,7 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
               <span className="text-[10px] text-ink-tertiary">Tap to assign</span>
             </label>
 
-            <div className="space-y-1.5">
+            <div className="space-y-2">
               {slotOptions.map((opt) => {
                 const isCurrent = opt === currentExerciseName;
                 return (
@@ -114,14 +114,14 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
                       onSelectExercise(opt);
                       onClose();
                     }}
-                    className={`w-full p-3 rounded-lg border text-left transition flex items-center justify-between group ${
+                    className={`w-full p-3.5 border text-left transition flex items-center justify-between group active:scale-95 ${
                       isCurrent
-                        ? 'bg-surface-3 border-primary/60 text-ink ring-1 ring-primary/30'
-                        : 'bg-surface-1 hover:bg-surface-2 border-hairline text-ink hover:text-ink'
+                        ? 'bg-surface-2 border-white text-white'
+                        : 'bg-surface-1 hover:bg-surface-2 border-hairline text-white'
                     }`}
                   >
                     <div>
-                      <div className="text-xs font-semibold group-hover:text-primary-hover transition">
+                      <div className="text-xs font-semibold uppercase tracking-wider">
                         {opt}
                       </div>
                       <div className="text-[10px] font-mono text-ink-subtle mt-0.5">
@@ -131,11 +131,11 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
 
                     <div className="flex items-center gap-2">
                       {isCurrent ? (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-primary/20 text-primary-hover border border-primary/40 flex items-center gap-1">
-                          <Check className="w-3 h-3" /> Active
+                        <span className="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-white text-black font-bold flex items-center gap-1 uppercase">
+                          <Check className="w-3 h-3 stroke-[3]" /> Active
                         </span>
                       ) : (
-                        <span className="text-[11px] font-mono text-ink-tertiary group-hover:text-ink-muted">
+                        <span className="text-xs font-mono text-ink-subtle group-hover:text-white">
                           Select →
                         </span>
                       )}
@@ -148,12 +148,12 @@ export const WeakPointSelectorModal: React.FC<WeakPointSelectorModalProps> = ({
         </div>
 
         {/* Modal Footer */}
-        <div className="p-3 border-t border-hairline bg-surface-2/40 flex items-center justify-between text-xs text-ink-subtle">
+        <div className="p-4 border-t border-hairline bg-surface-2/60 flex items-center justify-between text-xs text-ink-subtle">
           <span>Optional: You can swap this at any time during your workout.</span>
           <button
             type="button"
             onClick={onClose}
-            className="px-3 py-1.5 rounded-md bg-surface-3 hover:bg-surface-4 text-ink transition text-xs font-medium"
+            className="px-4 py-2 rounded-full bg-surface-3 hover:bg-surface-4 text-white transition text-xs font-semibold uppercase tracking-wider active:scale-95"
           >
             Cancel
           </button>

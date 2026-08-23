@@ -5,7 +5,6 @@ import {
   Trash2, 
   Edit3, 
   Check, 
-  X, 
   Play, 
   Dumbbell, 
   ChevronDown,
@@ -128,7 +127,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
       {/* Header & View Switcher */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-semibold tracking-tight text-ink font-sans">
+          <h2 className="text-2xl font-display uppercase tracking-wide text-white">
             Workout History & Progression
           </h2>
           <p className="text-xs text-ink-subtle mt-0.5">
@@ -136,15 +135,15 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
           </p>
         </div>
 
-        {/* View Mode Toggle */}
-        <div className="inline-flex rounded-lg bg-surface-2 p-1 border border-hairline shrink-0">
+        {/* View Mode Toggle (Pill Switcher) */}
+        <div className="inline-flex rounded-full bg-surface-1 p-1 border border-hairline shrink-0">
           <button
             type="button"
             onClick={() => setViewMode('sessions')}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 ${
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition flex items-center gap-1.5 active:scale-95 ${
               viewMode === 'sessions'
-                ? 'bg-surface-1 text-ink shadow-sm border border-hairline'
-                : 'text-ink-muted hover:text-ink'
+                ? 'bg-white text-black shadow-sm'
+                : 'text-ink-subtle hover:text-white'
             }`}
           >
             <Calendar className="w-3.5 h-3.5" />
@@ -153,26 +152,26 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
           <button
             type="button"
             onClick={() => setViewMode('exercises')}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition flex items-center gap-1.5 ${
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition flex items-center gap-1.5 active:scale-95 ${
               viewMode === 'exercises'
-                ? 'bg-surface-1 text-ink shadow-sm border border-hairline'
-                : 'text-ink-muted hover:text-ink'
+                ? 'bg-white text-black shadow-sm'
+                : 'text-ink-subtle hover:text-white'
             }`}
           >
-            <TrendingUp className="w-3.5 h-3.5 text-primary-hover" />
+            <TrendingUp className="w-3.5 h-3.5" />
             <span>Progression Map</span>
           </button>
         </div>
       </div>
 
       {sessionEntries.length === 0 ? (
-        <div className="rounded-lg bg-surface-1 border border-hairline p-8 text-center space-y-3">
-          <div className="w-10 h-10 rounded-full bg-surface-2 border border-hairline mx-auto flex items-center justify-center text-primary-hover">
+        <div className="bg-surface-1 border border-hairline p-8 text-center space-y-3">
+          <div className="w-12 h-12 rounded-full bg-surface-2 border border-hairline mx-auto flex items-center justify-center text-white">
             <Calendar className="w-5 h-5" />
           </div>
-          <p className="text-sm font-semibold text-ink">No workout logs recorded yet.</p>
+          <p className="text-sm font-semibold uppercase tracking-wider text-white">No workout logs recorded yet.</p>
           <p className="text-xs text-ink-subtle">
-            Complete and log your sets on the Workout tab to see full history and edit capabilities here!
+            Complete and log your sets on the Live Workout tab to see full history and edit capabilities here!
           </p>
         </div>
       ) : viewMode === 'sessions' ? (
@@ -193,33 +192,33 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
             return (
               <div
                 key={sessionKey}
-                className="rounded-lg bg-surface-1 border border-hairline overflow-hidden shadow-lg transition-all"
+                className="bg-surface-1 border border-hairline overflow-hidden transition-all"
               >
                 {/* Session Card Header */}
-                <div className="p-4 bg-surface-2/40 flex flex-wrap items-center justify-between gap-3 border-b border-hairline">
+                <div className="p-4 bg-surface-2/60 flex flex-wrap items-center justify-between gap-3 border-b border-hairline">
                   <div className="flex items-center gap-3">
                     <button
                       type="button"
                       onClick={() => toggleSessionExpand(sessionKey)}
-                      className="p-1 rounded bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-subtle hover:text-ink transition"
+                      className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-subtle hover:text-white flex items-center justify-center transition active:scale-95"
                     >
                       {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </button>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold text-ink">{session.dayName || 'Workout'}</span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-pill bg-surface-3 text-primary-hover border border-primary/30">
+                        <span className="text-base font-display uppercase tracking-wider text-white">{session.dayName || 'Workout'}</span>
+                        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-surface-3 text-white border border-hairline uppercase">
                           C{session.cycleNumber || 1} · Week {session.weekNumber || 1}
                         </span>
                       </div>
                       <div className="text-xs text-ink-subtle font-mono mt-0.5 flex flex-wrap items-center gap-2">
-                        <span>{session.date}</span>
+                        <span className="text-white">{session.date}</span>
                         <span>·</span>
                         <span>{exercises.length} Exercises</span>
                         <span>·</span>
                         <span>{totalSets} Sets</span>
                         <span>·</span>
-                        <span className="text-ink-tertiary">
+                        <span className="text-white font-semibold">
                           Vol: {totalVolume.toLocaleString()} kg
                         </span>
                       </div>
@@ -232,7 +231,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                       <button
                         type="button"
                         onClick={() => onOpenSessionInRunner(session.date, session.weekNumber || 1, session.dayId || 'w1-d1', session.cycleNumber || 1)}
-                        className="px-2.5 py-1.5 rounded-md bg-surface-2 hover:bg-surface-3 border border-hairline text-xs font-medium text-ink hover:text-primary-hover transition flex items-center gap-1.5"
+                        className="px-3.5 py-1.5 rounded-full bg-white hover:bg-neutral-200 text-black text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5 active:scale-95 cursor-pointer shadow-sm"
                         title="Load this workout in workout runner"
                       >
                         <Play className="w-3 h-3 fill-current" />
@@ -244,7 +243,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                       <button
                         type="button"
                         onClick={() => setSessionToDelete(sessionKey)}
-                        className="p-1.5 rounded-md bg-surface-2 hover:bg-red-950/40 border border-hairline hover:border-red-500/40 text-ink-tertiary hover:text-red-400 transition"
+                        className="w-8 h-8 rounded-full bg-surface-2 hover:bg-sale-deep/40 border border-hairline hover:border-sale/40 text-ink-subtle hover:text-sale flex items-center justify-center transition active:scale-95"
                         title="Delete this entire session"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -264,10 +263,10 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                         <div key={ex.exerciseId || ex.exerciseName} className="pt-3 first:pt-0 space-y-2">
                           <div className="flex flex-wrap items-center justify-between gap-2">
                             <div className="flex items-center gap-2">
-                              <Dumbbell className="w-3.5 h-3.5 text-primary-hover" />
-                              <span className="text-xs font-semibold text-ink">{ex.exerciseName}</span>
+                              <Dumbbell className="w-3.5 h-3.5 text-white" />
+                              <span className="text-xs font-semibold uppercase tracking-wider text-white">{ex.exerciseName}</span>
                               {exerciseSetupNote && (
-                                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface-2 text-primary-hover border border-primary/30 flex items-center gap-1">
+                                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-surface-2 text-white border border-hairline flex items-center gap-1">
                                   <Sliders className="w-2.5 h-2.5" />
                                   <span>{exerciseSetupNote}</span>
                                 </span>
@@ -290,16 +289,16 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                 return (
                                   <div
                                     key={setIdx}
-                                    className="p-3 rounded-md bg-surface-2 border border-primary/40 space-y-2 text-xs animate-in fade-in"
+                                    className="p-3 bg-surface-2 border border-hairline-strong space-y-2 text-xs animate-in fade-in"
                                   >
-                                    <div className="font-mono text-ink-muted font-bold text-[11px]">
+                                    <div className="font-mono text-white font-bold text-[11px] uppercase tracking-wider">
                                       Set {set.setNumber || setIdx + 1}
                                     </div>
 
                                     <div className="flex flex-wrap items-center justify-between gap-2">
                                       <div className="flex items-center gap-2">
                                         <div className="flex items-center gap-1">
-                                          <span className="text-[10px] text-ink-subtle">kg:</span>
+                                          <span className="text-[10px] text-ink-subtle font-mono">kg:</span>
                                           <input
                                             type="number"
                                             step="0.5"
@@ -310,12 +309,12 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                                 weight: parseFloat(e.target.value) || 0,
                                               })
                                             }
-                                            className="w-16 px-1.5 py-0.5 rounded bg-canvas border border-hairline text-center font-mono text-xs text-ink focus:border-primary focus:outline-none"
+                                            className="w-16 px-2 py-1 rounded bg-canvas border border-hairline text-center font-mono text-xs text-white focus:border-white focus:outline-none"
                                           />
                                         </div>
 
                                         <div className="flex items-center gap-1">
-                                          <span className="text-[10px] text-ink-subtle">reps:</span>
+                                          <span className="text-[10px] text-ink-subtle font-mono">reps:</span>
                                           <input
                                             type="number"
                                             value={editingSet.reps}
@@ -325,12 +324,12 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                                 reps: parseInt(e.target.value) || 0,
                                               })
                                             }
-                                            className="w-14 px-1.5 py-0.5 rounded bg-canvas border border-hairline text-center font-mono text-xs text-ink focus:border-primary focus:outline-none"
+                                            className="w-14 px-2 py-1 rounded bg-canvas border border-hairline text-center font-mono text-xs text-white focus:border-white focus:outline-none"
                                           />
                                         </div>
 
                                         <div className="flex items-center gap-1">
-                                          <span className="text-[10px] text-ink-subtle">RPE:</span>
+                                          <span className="text-[10px] text-ink-subtle font-mono">RPE:</span>
                                           <input
                                             type="number"
                                             step="0.5"
@@ -341,34 +340,35 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                                 rpe: parseFloat(e.target.value) || 8,
                                               })
                                             }
-                                            className="w-14 px-1.5 py-0.5 rounded bg-canvas border border-hairline text-center font-mono text-xs text-ink focus:border-primary focus:outline-none"
+                                            className="w-14 px-2 py-1 rounded bg-canvas border border-hairline text-center font-mono text-xs text-white focus:border-white focus:outline-none"
                                           />
                                         </div>
                                       </div>
 
-                                      <div className="flex items-center gap-1">
+                                      <div className="flex items-center gap-1.5">
                                         <button
                                           type="button"
                                           onClick={handleSaveEdit}
-                                          className="p-1 rounded bg-semantic-success/20 text-semantic-success hover:bg-semantic-success/30 transition"
+                                          className="px-3 py-1 rounded-full bg-white text-black font-bold uppercase text-[10px] tracking-wider transition active:scale-95"
                                           title="Save set changes"
                                         >
-                                          <Check className="w-3.5 h-3.5" />
+                                          <Check className="w-3.5 h-3.5 inline mr-1" />
+                                          Save
                                         </button>
                                         <button
                                           type="button"
                                           onClick={() => setEditingSet(null)}
-                                          className="p-1 rounded bg-surface-3 text-ink-subtle hover:text-ink transition"
+                                          className="px-3 py-1 rounded-full bg-surface-3 text-white uppercase text-[10px] tracking-wider transition active:scale-95"
                                           title="Cancel"
                                         >
-                                          <X className="w-3.5 h-3.5" />
+                                          Cancel
                                         </button>
                                       </div>
                                     </div>
 
                                     {/* Technique Detail editor */}
                                     <div className="flex items-center gap-2 pt-1 border-t border-hairline">
-                                      <span className="text-[10px] text-ink-subtle font-mono">Technique Detail:</span>
+                                      <span className="text-[10px] text-ink-subtle font-mono uppercase">Technique:</span>
                                       <input
                                         type="text"
                                         value={editingSet.techniqueDetail || ''}
@@ -379,7 +379,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                           })
                                         }
                                         placeholder="e.g., +4 partials, Drop: 60kg x 6"
-                                        className="flex-1 px-2 py-0.5 rounded bg-canvas border border-hairline text-xs font-mono text-ink focus:border-primary focus:outline-none"
+                                        className="flex-1 px-2.5 py-1 rounded bg-canvas border border-hairline text-xs font-mono text-white focus:border-white focus:outline-none"
                                       />
                                     </div>
                                   </div>
@@ -389,24 +389,24 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                               return (
                                 <div
                                   key={setIdx}
-                                  className="px-3 py-2 rounded-md bg-surface-2/60 border border-hairline flex flex-wrap items-center justify-between gap-2 text-xs font-mono group hover:bg-surface-2 transition"
+                                  className="px-3 py-2 bg-surface-2/60 border border-hairline flex flex-wrap items-center justify-between gap-2 text-xs font-mono group hover:bg-surface-2 transition"
                                 >
                                   <div className="flex flex-wrap items-center gap-3">
-                                    <span className="w-5 h-5 rounded bg-surface-3 flex items-center justify-center text-[10px] text-ink-subtle">
+                                    <span className="w-5 h-5 rounded-full bg-surface-3 flex items-center justify-center text-[10px] text-white font-bold">
                                       {set.setNumber || setIdx + 1}
                                     </span>
-                                    <span className="text-ink font-semibold">
+                                    <span className="text-white font-bold">
                                       {set.weight} <span className="text-[10px] font-normal text-ink-subtle">kg</span>
                                     </span>
                                     <span className="text-ink-tertiary">×</span>
-                                    <span className="text-ink font-semibold">
+                                    <span className="text-white font-bold">
                                       {set.reps} <span className="text-[10px] font-normal text-ink-subtle">reps</span>
                                     </span>
-                                    <span className="text-[10px] px-1.5 py-0.2 rounded bg-surface-3 text-primary-hover border border-hairline">
+                                    <span className="text-[10px] px-2 py-0.5 rounded-full bg-surface-3 text-white border border-hairline">
                                       @{set.rpe || 8.5}
                                     </span>
                                     {set.techniqueDetail && (
-                                      <span className="text-[10px] px-2 py-0.5 rounded-pill bg-primary/10 text-primary-hover border border-primary/20 flex items-center gap-1 font-mono">
+                                      <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-surface-3 text-white border border-hairline flex items-center gap-1 font-mono">
                                         <Zap className="w-2.5 h-2.5" />
                                         <span>{set.techniqueDetail}</span>
                                       </span>
@@ -430,7 +430,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                             setupNotes: set.setupNotes,
                                           })
                                         }
-                                        className="p-1 rounded hover:bg-surface-3 text-ink-subtle hover:text-ink transition"
+                                        className="w-7 h-7 rounded-full hover:bg-surface-3 text-ink-subtle hover:text-white flex items-center justify-center transition active:scale-95"
                                         title="Edit this set"
                                       >
                                         <Edit3 className="w-3.5 h-3.5" />
@@ -441,7 +441,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                       <button
                                         type="button"
                                         onClick={() => onDeleteSet(sessionKey, ex.exerciseId, setIdx)}
-                                        className="p-1 rounded hover:bg-red-950/40 text-ink-tertiary hover:text-red-400 transition"
+                                        className="w-7 h-7 rounded-full hover:bg-sale-deep/40 text-ink-subtle hover:text-sale flex items-center justify-center transition active:scale-95"
                                         title="Delete this set"
                                       >
                                         <Trash2 className="w-3.5 h-3.5" />
@@ -478,20 +478,20 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
             return (
               <div
                 key={name}
-                className="rounded-lg bg-surface-1 border border-hairline p-4 space-y-3 relative overflow-hidden shadow-md"
+                className="bg-surface-1 border border-hairline p-5 space-y-3 relative overflow-hidden"
               >
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="text-sm font-semibold text-ink">{name}</h3>
+                    <h3 className="text-base font-display uppercase tracking-wide text-white">{name}</h3>
                     <div className="text-[11px] text-ink-subtle font-mono mt-0.5">
                       {sortedRecords.length} recorded sessions
                     </div>
                   </div>
                   {sortedRecords.length > 1 && (
                     <span
-                      className={`text-xs font-mono font-medium px-2 py-0.5 rounded-pill border ${
+                      className={`text-xs font-mono font-bold px-3 py-1 rounded-full border ${
                         weightDelta >= 0
-                          ? 'bg-semantic-success/10 text-semantic-success border-semantic-success/30'
+                          ? 'bg-success text-black border-success'
                           : 'bg-surface-2 text-ink-subtle border-hairline'
                       }`}
                     >
@@ -505,13 +505,13 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                   {sortedRecords.map((r, i) => (
                     <div
                       key={i}
-                      className="rounded bg-surface-2 border border-hairline p-2 text-center"
+                      className="bg-surface-2 border border-hairline p-3 text-center"
                     >
                       <div className="text-[10px] text-ink-subtle font-mono">
                         C{r.cycle}·W{r.week} · {r.date}
                       </div>
-                      <div className="text-sm font-bold font-mono text-ink mt-0.5">
-                        {r.maxWeight} <span className="text-[10px] font-normal text-ink-subtle">kg max</span>
+                      <div className="text-base font-display tracking-wider text-white mt-0.5">
+                        {r.maxWeight} <span className="text-[10px] font-normal text-ink-subtle font-sans">kg max</span>
                       </div>
                       <div className="text-[10px] font-mono text-ink-tertiary">
                         Vol: {r.totalVolume.toLocaleString()} kg
@@ -528,23 +528,23 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
       {/* Confirmation Modal for Deleting Entire Session */}
       {sessionToDelete && (
         <div className="fixed inset-0 z-50 bg-canvas/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-surface-1 border border-red-500/30 rounded-xl w-full max-w-sm p-5 space-y-4 shadow-2xl">
-            <div className="flex items-center gap-3 text-red-400">
-              <div className="w-8 h-8 rounded-full bg-red-950/50 border border-red-500/30 flex items-center justify-center">
-                <AlertTriangle className="w-4 h-4 text-red-400" />
+          <div className="bg-surface-1 border border-sale/40 max-w-sm w-full p-5 space-y-4 shadow-2xl">
+            <div className="flex items-center gap-3 text-sale">
+              <div className="w-9 h-9 rounded-full bg-sale-deep/50 border border-sale/40 flex items-center justify-center">
+                <AlertTriangle className="w-5 h-5 text-sale" />
               </div>
-              <h3 className="text-sm font-semibold text-ink">Delete Workout Session?</h3>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-white">Delete Workout Session?</h3>
             </div>
 
             <p className="text-xs text-ink-subtle leading-relaxed">
-              Are you sure you want to permanently delete this workout session log ({sessionToDelete})? This cannot be undone.
+              Are you sure you want to permanently delete this workout session log ({sessionToDelete})? This action cannot be undone.
             </p>
 
             <div className="flex items-center justify-end gap-2 pt-2">
               <button
                 type="button"
                 onClick={() => setSessionToDelete(null)}
-                className="px-3 py-1.5 rounded-md bg-surface-2 hover:bg-surface-3 text-ink text-xs font-medium transition"
+                className="px-4 py-2 rounded-full bg-surface-2 hover:bg-surface-3 text-white text-xs font-semibold uppercase tracking-wider transition active:scale-95"
               >
                 Cancel
               </button>
@@ -556,7 +556,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                   }
                   setSessionToDelete(null);
                 }}
-                className="px-3 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white text-xs font-medium transition shadow-lg"
+                className="px-4 py-2 rounded-full bg-sale hover:bg-sale-deep text-white text-xs font-bold uppercase tracking-wider transition shadow-lg active:scale-95"
               >
                 Delete Session
               </button>
