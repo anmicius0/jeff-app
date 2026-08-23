@@ -598,15 +598,21 @@ export function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-4xl w-full mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6 pb-24">
-        {/* Navigation Tabs (Athletic High-Contrast Pill tab with Spring Easing) */}
+        {/* Navigation Tabs with Sliding Pill Background */}
         <div className="flex justify-center">
-          <div className="inline-flex p-1 rounded-full bg-surface-1 border border-hairline shadow-sm">
+          <div className="relative inline-flex p-1 rounded-full bg-surface-1 border border-hairline shadow-sm">
+            {/* Smooth Sliding Pill Indicator */}
+            <div
+              className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-full transition-all duration-300 ease-spring-smooth shadow-md ${
+                activeTab === 'workout' ? 'left-1' : 'left-[calc(50%+2px)]'
+              }`}
+            />
             <button
               onClick={() => setActiveTab('workout')}
-              className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-200 ease-spring-smooth flex items-center gap-2 active:scale-95 cursor-pointer select-none ${
+              className={`relative z-10 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-200 flex items-center gap-2 active:scale-95 cursor-pointer select-none ${
                 activeTab === 'workout'
-                  ? 'bg-white text-black shadow-md font-bold'
-                  : 'text-ink-subtle hover:text-white hover:bg-surface-2'
+                  ? 'text-black font-bold'
+                  : 'text-ink-subtle hover:text-white'
               }`}
             >
               <Dumbbell className="w-3.5 h-3.5" />
@@ -614,10 +620,10 @@ export function App() {
             </button>
             <button
               onClick={() => setActiveTab('progress')}
-              className={`px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-200 ease-spring-smooth flex items-center gap-2 active:scale-95 cursor-pointer select-none ${
+              className={`relative z-10 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-200 flex items-center gap-2 active:scale-95 cursor-pointer select-none ${
                 activeTab === 'progress'
-                  ? 'bg-white text-black shadow-md font-bold'
-                  : 'text-ink-subtle hover:text-white hover:bg-surface-2'
+                  ? 'text-black font-bold'
+                  : 'text-ink-subtle hover:text-white'
               }`}
             >
               <TrendingUp className="w-3.5 h-3.5" />
@@ -626,10 +632,12 @@ export function App() {
           </div>
         </div>
 
-        {activeTab === 'workout' ? (
-          <>
-            {/* Session Momentum & Progress Bar */}
-            <div className="bg-surface-1 border border-hairline p-3 sm:p-4 space-y-2.5 sm:space-y-3">
+        {/* Animated View Container with Smooth Crossfade & Spring Slide */}
+        <div key={activeTab} className="animate-scale-in">
+          {activeTab === 'workout' ? (
+            <div className="space-y-4 sm:space-y-6 animate-fade-slide-up">
+              {/* Session Momentum & Progress Bar */}
+              <div className="bg-surface-1 border border-hairline p-3 sm:p-4 space-y-2.5 sm:space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
                 <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
                   <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white animate-pulse shrink-0" />
@@ -835,7 +843,6 @@ export function App() {
                 onNextWorkoutDay={handleNextWorkoutDay}
               />
             ) : activeExercise ? (
-              /* Core: Current Workout Prompt Component */
               <CurrentWorkoutPrompt
                 exercise={activeExercise}
                 currentWeek={currentWeek}
@@ -863,16 +870,19 @@ export function App() {
                 No exercises scheduled for this rest day.
               </div>
             )}
-          </>
+          </div>
         ) : (
-          <WeekOverWeekView
-            logs={logs}
-            onUpdateSet={handleUpdateHistorySet}
-            onDeleteSet={handleDeleteHistorySet}
-            onDeleteSession={handleDeleteSession}
-            onOpenSessionInRunner={handleOpenSessionInRunner}
-          />
+          <div className="animate-fade-slide-up">
+            <WeekOverWeekView
+              logs={logs}
+              onUpdateSet={handleUpdateHistorySet}
+              onDeleteSet={handleDeleteHistorySet}
+              onDeleteSession={handleDeleteSession}
+              onOpenSessionInRunner={handleOpenSessionInRunner}
+            />
+          </div>
         )}
+        </div>
       </main>
 
       {/* Floating Rest Timer */}
