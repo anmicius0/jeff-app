@@ -85,7 +85,7 @@ export const WorkoutCompleteBanner: React.FC<WorkoutCompleteBannerProps> = ({
         <button
           type="button"
           onClick={onResetWorkout}
-          className="flex-1 py-3 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-white text-xs font-semibold uppercase tracking-wider transition flex items-center justify-center gap-2 active:scale-95"
+          className="flex-1 py-3 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-white text-xs font-semibold uppercase tracking-wider apple-press flex items-center justify-center gap-2 cursor-pointer select-none"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Review Workout</span>
@@ -93,7 +93,7 @@ export const WorkoutCompleteBanner: React.FC<WorkoutCompleteBannerProps> = ({
         <button
           type="button"
           onClick={onNextWorkoutDay}
-          className="flex-1 py-3 rounded-full bg-white hover:bg-neutral-200 text-black text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-lg active:scale-95 cursor-pointer"
+          className="flex-1 py-3 rounded-full bg-white hover:bg-neutral-200 text-black text-xs font-bold uppercase tracking-wider apple-press flex items-center justify-center gap-2 shadow-lg cursor-pointer select-none"
         >
           <span>{isCycleFinish ? `Start Cycle ${activeCycle + 1} (Week 1)` : 'Next Workout'}</span>
           <ArrowRight className="w-3.5 h-3.5" />

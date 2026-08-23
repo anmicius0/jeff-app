@@ -192,7 +192,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               <button
                 type="button"
                 onClick={onSelectWeakPoint}
-                className="min-h-[38px] text-xs px-4 py-2 rounded-full bg-white text-black font-bold uppercase tracking-wider hover:bg-neutral-200 transition flex items-center gap-1.5 active:scale-95 cursor-pointer select-none shadow-sm"
+                className="min-h-[38px] text-xs px-4 py-2 rounded-full bg-white text-black font-bold uppercase tracking-wider hover:bg-neutral-200 apple-press flex items-center gap-1.5 cursor-pointer select-none shadow-sm"
               >
                 <Target className="w-3.5 h-3.5" />
                 <span>Choose Weak Point</span>
@@ -202,7 +202,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               <button
                 type="button"
                 onClick={onSelectSubstitution}
-                className="min-h-[38px] text-xs px-3.5 py-2 rounded-full bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border border-hairline text-ink-muted hover:text-white transition flex items-center gap-1.5 active:scale-95 cursor-pointer select-none"
+                className="min-h-[38px] text-xs px-3.5 py-2 rounded-full bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border border-hairline text-ink-muted hover:text-white apple-press flex items-center gap-1.5 cursor-pointer select-none"
               >
                 <Layers className="w-3.5 h-3.5 text-white" />
                 <span>Swap Exercise</span>
@@ -211,7 +211,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
             <button
               type="button"
               onClick={() => setShowNotes(!showNotes)}
-              className="min-h-[38px] text-xs px-3.5 py-2 rounded-full bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border border-hairline text-ink-muted hover:text-white transition flex items-center gap-1.5 active:scale-95 cursor-pointer select-none"
+              className="min-h-[38px] text-xs px-3.5 py-2 rounded-full bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border border-hairline text-ink-muted hover:text-white apple-press flex items-center gap-1.5 cursor-pointer select-none"
             >
               <span>Form Cues</span>
               {showNotes ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5 text-ink-subtle" />}
@@ -220,7 +220,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               <button
                 type="button"
                 onClick={onClearExerciseSets}
-                className="min-h-[38px] text-xs px-3.5 py-2 rounded-full bg-surface-2 hover:bg-sale-deep/40 active:bg-sale/20 border border-hairline hover:border-sale/40 text-ink-subtle hover:text-sale transition flex items-center gap-1.5 ml-auto active:scale-95 cursor-pointer select-none"
+                className="min-h-[38px] text-xs px-3.5 py-2 rounded-full bg-surface-2 hover:bg-sale-deep/40 active:bg-sale/20 border border-hairline hover:border-sale/40 text-ink-subtle hover:text-sale apple-press flex items-center gap-1.5 ml-auto cursor-pointer select-none"
                 title="Reset all recorded sets for this exercise"
               >
                 <Trash2 className="w-3.5 h-3.5" />

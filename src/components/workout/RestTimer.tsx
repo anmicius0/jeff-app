@@ -67,12 +67,13 @@ export const RestTimer: React.FC<RestTimerProps> = ({
   const presetTimes = [60, 90, 120, 180, 240];
 
   // Minimized floating pill mode
+  // Minimized floating pill mode
   if (isMinimized) {
     return (
       <div className="fixed bottom-5 right-5 z-50 animate-fade-slide-up duration-200">
         <div
           onClick={() => setIsMinimized(false)}
-          className="cursor-pointer flex items-center gap-3 px-4 py-2.5 rounded-full bg-surface-2 border border-white/20 shadow-2xl backdrop-blur-md hover:border-white transition-all duration-200 active:scale-95 ease-spring-snappy group"
+          className="cursor-pointer flex items-center gap-3 px-4 py-2.5 rounded-full bg-surface-2 border border-white/20 shadow-2xl backdrop-blur-md hover:border-white transition-all duration-200 apple-card-press ease-spring-snappy group"
         >
           <span className={`w-2.5 h-2.5 rounded-full ${isFinished ? 'bg-success animate-bounce' : isRunning ? 'bg-white animate-pulse' : 'bg-ink-subtle'}`} />
           <span className="font-display tracking-widest text-lg text-white font-mono">
@@ -84,7 +85,7 @@ export const RestTimer: React.FC<RestTimerProps> = ({
               e.stopPropagation();
               setIsMinimized(false);
             }}
-            className="w-7 h-7 rounded-full bg-surface-3 hover:bg-surface-4 active:bg-white active:text-black flex items-center justify-center text-ink-subtle hover:text-white transition-all duration-150 active:scale-90"
+            className="w-7 h-7 rounded-full bg-surface-3 hover:bg-surface-4 flex items-center justify-center text-ink-subtle hover:text-white apple-press cursor-pointer"
             title="Expand Timer"
           >
             <Maximize2 className="w-3.5 h-3.5" />
@@ -116,7 +117,7 @@ export const RestTimer: React.FC<RestTimerProps> = ({
             <button
               type="button"
               onClick={() => setIsMinimized(true)}
-              className="w-7 h-7 rounded-full bg-surface-2 hover:bg-surface-3 active:bg-surface-4 flex items-center justify-center text-ink-subtle hover:text-white transition-all duration-150 active:scale-90"
+              className="w-7 h-7 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white apple-press cursor-pointer"
               title="Minimize to floating pill"
             >
               <Minimize2 className="w-3.5 h-3.5" />
@@ -124,7 +125,7 @@ export const RestTimer: React.FC<RestTimerProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="w-7 h-7 rounded-full bg-surface-2 hover:bg-surface-3 active:bg-surface-4 flex items-center justify-center text-ink-subtle hover:text-white transition-all duration-150 active:scale-90"
+              className="w-7 h-7 rounded-full bg-surface-2 hover:bg-surface-3 flex items-center justify-center text-ink-subtle hover:text-white apple-press cursor-pointer"
               title="Close Timer"
             >
               <X className="w-3.5 h-3.5" />
@@ -145,7 +146,7 @@ export const RestTimer: React.FC<RestTimerProps> = ({
               <button
                 type="button"
                 onClick={() => handleAdjustTime(-15)}
-                className="px-2 py-1 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-xs font-mono text-ink-subtle hover:text-white transition active:scale-95 flex items-center"
+                className="px-2 py-1 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-xs font-mono text-ink-subtle hover:text-white apple-press flex items-center cursor-pointer select-none"
                 title="Subtract 15s"
               >
                 <Minus className="w-2.5 h-2.5 mr-0.5" /> 15s
@@ -153,7 +154,7 @@ export const RestTimer: React.FC<RestTimerProps> = ({
               <button
                 type="button"
                 onClick={() => handleAdjustTime(+30)}
-                className="px-2 py-1 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-xs font-mono text-white transition active:scale-95 flex items-center font-bold"
+                className="px-2 py-1 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-xs font-mono text-white apple-press flex items-center font-bold cursor-pointer select-none"
                 title="Add 30s"
               >
                 <Plus className="w-2.5 h-2.5 mr-0.5" /> 30s
@@ -166,7 +167,7 @@ export const RestTimer: React.FC<RestTimerProps> = ({
             <button
               type="button"
               onClick={() => setIsRunning(!isRunning)}
-              className="w-10 h-10 rounded-full bg-white hover:bg-neutral-200 text-black font-bold flex items-center justify-center transition active:scale-90 shadow-md"
+              className="w-10 h-10 rounded-full bg-white hover:bg-neutral-200 text-black font-bold flex items-center justify-center apple-press shadow-md cursor-pointer select-none"
               title={isRunning ? 'Pause' : 'Resume'}
             >
               {isRunning ? <Pause className="w-4 h-4 fill-current" /> : <Play className="w-4 h-4 fill-current ml-0.5" />}
@@ -177,7 +178,7 @@ export const RestTimer: React.FC<RestTimerProps> = ({
                 setTimeLeft(totalTime);
                 setIsRunning(true);
               }}
-              className="w-10 h-10 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-muted hover:text-white flex items-center justify-center transition active:scale-90"
+              className="w-10 h-10 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-muted hover:text-white flex items-center justify-center apple-press cursor-pointer select-none"
               title="Reset Timer"
             >
               <RotateCcw className="w-4 h-4" />
@@ -205,9 +206,9 @@ export const RestTimer: React.FC<RestTimerProps> = ({
                 setTimeLeft(secs);
                 setIsRunning(true);
               }}
-              className={`flex-1 py-1.5 rounded-full text-xs font-mono border transition active:scale-95 ${
+              className={`flex-1 py-1.5 rounded-full text-xs font-mono border apple-press cursor-pointer select-none ${
                 totalTime === secs
-                  ? 'bg-white text-black font-bold border-white'
+                  ? 'bg-white text-black font-bold border-white shadow-sm'
                   : 'bg-surface-2 border-hairline text-ink-subtle hover:text-white'
               }`}
             >

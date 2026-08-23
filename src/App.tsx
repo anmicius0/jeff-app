@@ -656,7 +656,7 @@ export function App() {
                     type="button"
                     onClick={() => handleStepWeek(-1)}
                     disabled={currentWeek <= 1 && currentCycle <= 1}
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-2 hover:bg-surface-3 disabled:opacity-30 border border-hairline text-white transition flex items-center justify-center active:scale-95"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-2 hover:bg-surface-3 disabled:opacity-30 border border-hairline text-white apple-press flex items-center justify-center cursor-pointer select-none"
                     title="Previous Week"
                   >
                     <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -664,7 +664,7 @@ export function App() {
                   <button
                     type="button"
                     onClick={() => setIsWeekSelectorOpen(true)}
-                    className="text-[11px] sm:text-xs font-mono font-bold px-2.5 sm:px-3 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-white whitespace-nowrap transition cursor-pointer active:scale-95 uppercase tracking-wider"
+                    className="text-[11px] sm:text-xs font-mono font-bold px-2.5 sm:px-3 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-white whitespace-nowrap apple-press cursor-pointer uppercase tracking-wider select-none"
                     title="Change Cycle or Week"
                   >
                     C{currentCycle}·W{currentWeek}
@@ -672,7 +672,7 @@ export function App() {
                   <button
                     type="button"
                     onClick={() => handleStepWeek(+1)}
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-2 hover:bg-surface-3 disabled:opacity-30 border border-hairline text-white transition flex items-center justify-center active:scale-95"
+                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-surface-2 hover:bg-surface-3 disabled:opacity-30 border border-hairline text-white apple-press flex items-center justify-center cursor-pointer select-none"
                     title="Next Week"
                   >
                     <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -686,7 +686,7 @@ export function App() {
                       key={w.weekNumber}
                       type="button"
                       onClick={() => handleSelectWeek(w.weekNumber, currentCycle)}
-                      className={`px-3 py-1 rounded-full text-xs font-mono border transition shrink-0 active:scale-95 ${
+                      className={`px-3 py-1 rounded-full text-xs font-mono border apple-press shrink-0 cursor-pointer select-none ${
                         currentWeek === w.weekNumber
                           ? 'bg-white text-black border-white font-bold shadow-sm'
                           : 'bg-surface-2 hover:bg-surface-3 border-hairline text-ink-subtle hover:text-white'
@@ -701,9 +701,9 @@ export function App() {
                 <button
                   type="button"
                   onClick={() => setShowManualDateInput(!showManualDateInput)}
-                  className={`w-8 h-8 rounded-full border transition shrink-0 flex items-center justify-center active:scale-95 ${
+                  className={`w-8 h-8 rounded-full border apple-press shrink-0 flex items-center justify-center cursor-pointer select-none ${
                     showManualDateInput
-                      ? 'bg-white text-black border-white'
+                      ? 'bg-white text-black border-white shadow-sm'
                       : 'bg-surface-2 hover:bg-surface-3 border-hairline text-ink-subtle hover:text-white'
                   }`}
                   title="Manual Workout Date"
@@ -723,12 +723,12 @@ export function App() {
                       type="date"
                       value={selectedDate}
                       onChange={(e) => setSelectedDate(e.target.value)}
-                      className="bg-surface-3 border border-hairline-strong text-white rounded-md px-2.5 py-1 text-xs outline-none focus:border-white"
+                      className="bg-surface-3 border border-hairline-strong text-white rounded-md px-2.5 py-1 text-xs outline-none apple-focus-ring"
                     />
                     <button
                       type="button"
                       onClick={() => setSelectedDate(getTodayLocalDateString())}
-                      className="px-3 py-1 rounded-full bg-surface-3 hover:bg-surface-4 text-white text-xs font-medium uppercase tracking-wider"
+                      className="px-3 py-1 rounded-full bg-surface-3 hover:bg-surface-4 text-white text-xs font-medium uppercase tracking-wider apple-press cursor-pointer"
                     >
                       Today
                     </button>
@@ -746,12 +746,12 @@ export function App() {
                       disabled={d.isRestDay}
                       type="button"
                       onClick={() => handleSelectDay(d.id)}
-                      className={`min-h-[38px] shrink-0 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border transition active:scale-95 select-none ${
+                      className={`min-h-[38px] shrink-0 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border select-none ${
                         d.isRestDay
                           ? 'opacity-40 bg-surface-1 border-hairline text-ink-tertiary cursor-not-allowed'
                           : isSelected
-                          ? 'bg-white text-black border-white shadow-sm'
-                          : 'bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border-hairline text-ink-muted hover:text-white cursor-pointer'
+                          ? 'bg-white text-black border-white shadow-sm font-bold apple-press'
+                          : 'bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border-hairline text-ink-muted hover:text-white cursor-pointer apple-press'
                       }`}
                     >
                       {d.name}
@@ -785,9 +785,9 @@ export function App() {
                       key={rawEx.id}
                       type="button"
                       onClick={() => setActiveExerciseIndex(idx)}
-                      className={`min-h-[46px] shrink-0 px-3.5 py-2.5 border text-xs text-left transition flex items-center gap-2.5 active:scale-95 select-none cursor-pointer ${
+                      className={`min-h-[46px] shrink-0 px-3.5 py-2.5 border text-xs text-left apple-card-press flex items-center gap-2.5 select-none cursor-pointer ${
                         isSelected
-                          ? 'bg-surface-2 border-white text-white'
+                          ? 'bg-surface-2 border-white text-white shadow-sm'
                           : 'bg-surface-1 hover:bg-surface-2 active:bg-surface-3 border-hairline text-ink-muted hover:text-white'
                       }`}
                     >

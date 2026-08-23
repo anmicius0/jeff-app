@@ -184,7 +184,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                     <button
                       type="button"
                       onClick={() => toggleSessionExpand(sessionKey)}
-                      className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-subtle hover:text-white flex items-center justify-center transition active:scale-95"
+                      className="w-8 h-8 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-subtle hover:text-white flex items-center justify-center apple-press cursor-pointer"
                     >
                       {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </button>
@@ -215,7 +215,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                       <button
                         type="button"
                         onClick={() => onOpenSessionInRunner(session.date, session.weekNumber || 1, session.dayId || 'w1-d1', session.cycleNumber || 1)}
-                        className="px-3.5 py-1.5 rounded-full bg-white hover:bg-neutral-200 text-black text-xs font-bold uppercase tracking-wider transition flex items-center gap-1.5 active:scale-95 cursor-pointer shadow-sm"
+                        className="px-3.5 py-1.5 rounded-full bg-white hover:bg-neutral-200 text-black text-xs font-bold uppercase tracking-wider apple-press flex items-center gap-1.5 cursor-pointer shadow-sm"
                         title="Load this workout in workout runner"
                       >
                         <Play className="w-3 h-3 fill-current" />
@@ -227,7 +227,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                       <button
                         type="button"
                         onClick={() => setSessionToDelete(sessionKey)}
-                        className="w-8 h-8 rounded-full bg-surface-2 hover:bg-sale-deep/40 border border-hairline hover:border-sale/40 text-ink-subtle hover:text-sale flex items-center justify-center transition active:scale-95"
+                        className="w-8 h-8 rounded-full bg-surface-2 hover:bg-sale-deep/40 border border-hairline hover:border-sale/40 text-ink-subtle hover:text-sale flex items-center justify-center apple-press cursor-pointer"
                         title="Delete this entire session"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
@@ -326,7 +326,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                         <button
                                           type="button"
                                           onClick={handleSaveEdit}
-                                          className="px-3 py-1 rounded-full bg-white text-black font-bold uppercase text-[10px] tracking-wider transition active:scale-95"
+                                          className="px-3 py-1 rounded-full bg-white text-black font-bold uppercase text-[10px] tracking-wider apple-press cursor-pointer"
                                           title="Save set changes"
                                         >
                                           <Check className="w-3.5 h-3.5 inline mr-1" />
@@ -335,7 +335,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                         <button
                                           type="button"
                                           onClick={() => setEditingSet(null)}
-                                          className="px-3 py-1 rounded-full bg-surface-3 text-white uppercase text-[10px] tracking-wider transition active:scale-95"
+                                          className="px-3 py-1 rounded-full bg-surface-3 text-white uppercase text-[10px] tracking-wider apple-press cursor-pointer"
                                           title="Cancel"
                                         >
                                           Cancel
@@ -356,7 +356,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                           })
                                         }
                                         placeholder="e.g., +4 partials, Drop: 60kg x 6"
-                                        className="flex-1 px-2.5 py-1 rounded bg-canvas border border-hairline text-xs font-mono text-white focus:border-white focus:outline-none"
+                                        className="flex-1 px-2.5 py-1 rounded bg-canvas border border-hairline text-xs font-mono text-white focus:border-white focus:outline-none apple-focus-ring"
                                       />
                                     </div>
                                   </div>
@@ -366,7 +366,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                               return (
                                 <div
                                   key={setIdx}
-                                  className="px-3 py-2 bg-surface-2/60 border border-hairline flex flex-wrap items-center justify-between gap-2 text-xs font-mono group hover:bg-surface-2 transition"
+                                  className="px-3 py-2 bg-surface-2/60 border border-hairline flex flex-wrap items-center justify-between gap-2 text-xs font-mono group hover:bg-surface-2 transition apple-card-press"
                                 >
                                   <div className="flex flex-wrap items-center gap-3">
                                     <span className="w-5 h-5 rounded-full bg-surface-3 flex items-center justify-center text-[10px] text-white font-bold">
@@ -407,7 +407,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                             setupNotes: set.setupNotes,
                                           })
                                         }
-                                        className="w-7 h-7 rounded-full hover:bg-surface-3 text-ink-subtle hover:text-white flex items-center justify-center transition active:scale-95"
+                                        className="w-7 h-7 rounded-full hover:bg-surface-3 text-ink-subtle hover:text-white flex items-center justify-center apple-press cursor-pointer"
                                         title="Edit this set"
                                       >
                                         <Edit3 className="w-3.5 h-3.5" />
@@ -418,7 +418,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                                       <button
                                         type="button"
                                         onClick={() => onDeleteSet(sessionKey, ex.exerciseId, setIdx)}
-                                        className="w-7 h-7 rounded-full hover:bg-sale-deep/40 text-ink-subtle hover:text-sale flex items-center justify-center transition active:scale-95"
+                                        className="w-7 h-7 rounded-full hover:bg-sale-deep/40 text-ink-subtle hover:text-sale flex items-center justify-center apple-press cursor-pointer"
                                         title="Delete this set"
                                       >
                                         <Trash2 className="w-3.5 h-3.5" />
@@ -504,8 +504,8 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
 
       {/* Confirmation Modal for Deleting Entire Session */}
       {sessionToDelete && (
-        <div className="fixed inset-0 z-50 bg-canvas/80 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-          <div className="bg-surface-1 border border-sale/40 max-w-sm w-full p-5 space-y-4 shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-canvas/80 backdrop-blur-sm flex items-center justify-center p-4 animate-backdrop-fade">
+          <div className="bg-surface-1 border border-sale/40 max-w-sm w-full p-5 space-y-4 shadow-2xl animate-modal-pop">
             <div className="flex items-center gap-3 text-sale">
               <div className="w-9 h-9 rounded-full bg-sale-deep/50 border border-sale/40 flex items-center justify-center">
                 <AlertTriangle className="w-5 h-5 text-sale" />
@@ -521,7 +521,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
               <button
                 type="button"
                 onClick={() => setSessionToDelete(null)}
-                className="px-4 py-2 rounded-full bg-surface-2 hover:bg-surface-3 text-white text-xs font-semibold uppercase tracking-wider transition active:scale-95"
+                className="px-4 py-2 rounded-full bg-surface-2 hover:bg-surface-3 text-white text-xs font-semibold uppercase tracking-wider apple-press cursor-pointer"
               >
                 Cancel
               </button>
@@ -533,7 +533,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                   }
                   setSessionToDelete(null);
                 }}
-                className="px-4 py-2 rounded-full bg-sale hover:bg-sale-deep text-white text-xs font-bold uppercase tracking-wider transition shadow-lg active:scale-95"
+                className="px-4 py-2 rounded-full bg-sale hover:bg-sale-deep text-white text-xs font-bold uppercase tracking-wider apple-press cursor-pointer shadow-lg"
               >
                 Delete Session
               </button>
