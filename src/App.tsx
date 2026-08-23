@@ -749,7 +749,7 @@ export function App() {
               )}
 
               {/* Day Selector Buttons for Active Week (Filter chips) */}
-              <div className="flex gap-2 overflow-x-auto scrollbar-none pt-2 border-t border-hairline">
+              <div className="flex gap-2 overflow-x-auto scrollbar-none pt-2 border-t border-hairline py-0.5">
                 {currentWeekPlan.days.map((d) => {
                   const isSelected = d.id === currentDayId;
                   return (
@@ -758,12 +758,12 @@ export function App() {
                       disabled={d.isRestDay}
                       type="button"
                       onClick={() => handleSelectDay(d.id)}
-                      className={`shrink-0 px-3.5 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider border transition active:scale-95 ${
+                      className={`min-h-[38px] shrink-0 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider border transition active:scale-95 select-none ${
                         d.isRestDay
                           ? 'opacity-40 bg-surface-1 border-hairline text-ink-tertiary cursor-not-allowed'
                           : isSelected
                           ? 'bg-white text-black border-white shadow-sm'
-                          : 'bg-surface-2 hover:bg-surface-3 border-hairline text-ink-muted hover:text-white'
+                          : 'bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border-hairline text-ink-muted hover:text-white cursor-pointer'
                       }`}
                     >
                       {d.name}
@@ -797,14 +797,14 @@ export function App() {
                       key={rawEx.id}
                       type="button"
                       onClick={() => setActiveExerciseIndex(idx)}
-                      className={`shrink-0 px-3.5 py-2 border text-xs text-left transition flex items-center gap-2.5 active:scale-95 ${
+                      className={`min-h-[46px] shrink-0 px-3.5 py-2.5 border text-xs text-left transition flex items-center gap-2.5 active:scale-95 select-none cursor-pointer ${
                         isSelected
                           ? 'bg-surface-2 border-white text-white'
-                          : 'bg-surface-1 hover:bg-surface-2 border-hairline text-ink-muted hover:text-white'
+                          : 'bg-surface-1 hover:bg-surface-2 active:bg-surface-3 border-hairline text-ink-muted hover:text-white'
                       }`}
                     >
                       <span
-                        className={`w-5 h-5 rounded-full border flex items-center justify-center text-[10px] font-mono font-bold ${
+                        className={`w-6 h-6 rounded-full border flex items-center justify-center text-[10px] font-mono font-bold shrink-0 ${
                           isDone
                             ? 'bg-success text-black border-success'
                             : isSelected
@@ -812,9 +812,9 @@ export function App() {
                             : 'bg-surface-2 border-hairline text-ink-subtle'
                         }`}
                       >
-                        {isDone ? <Check className="w-3 h-3 stroke-[3]" /> : idx + 1}
+                        {isDone ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : idx + 1}
                       </span>
-                      <div className="max-w-[140px] truncate">
+                      <div className="max-w-[150px] truncate">
                         <div className="font-semibold truncate">{exName}</div>
                         <div className="text-[10px] font-mono text-ink-subtle">
                           {setsCount}/{rawEx.workingSets} Sets

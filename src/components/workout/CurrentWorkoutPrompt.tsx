@@ -213,7 +213,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               <button
                 type="button"
                 onClick={onSelectWeakPoint}
-                className="text-xs px-3.5 py-1.5 rounded-full bg-white text-black font-semibold uppercase tracking-wider hover:bg-neutral-200 transition flex items-center gap-1.5 active:scale-95 cursor-pointer"
+                className="min-h-[38px] text-xs px-4 py-2 rounded-full bg-white text-black font-bold uppercase tracking-wider hover:bg-neutral-200 transition flex items-center gap-1.5 active:scale-95 cursor-pointer select-none shadow-sm"
               >
                 <Target className="w-3.5 h-3.5" />
                 <span>Choose Weak Point</span>
@@ -223,7 +223,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               <button
                 type="button"
                 onClick={onSelectSubstitution}
-                className="text-xs px-3 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-muted hover:text-white transition flex items-center gap-1.5 active:scale-95"
+                className="min-h-[38px] text-xs px-3.5 py-2 rounded-full bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border border-hairline text-ink-muted hover:text-white transition flex items-center gap-1.5 active:scale-95 cursor-pointer select-none"
               >
                 <Layers className="w-3.5 h-3.5 text-white" />
                 <span>Swap Exercise</span>
@@ -232,7 +232,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
             <button
               type="button"
               onClick={() => setShowNotes(!showNotes)}
-              className="text-xs px-3 py-1.5 rounded-full bg-surface-2 hover:bg-surface-3 border border-hairline text-ink-muted hover:text-white transition flex items-center gap-1 active:scale-95"
+              className="min-h-[38px] text-xs px-3.5 py-2 rounded-full bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border border-hairline text-ink-muted hover:text-white transition flex items-center gap-1.5 active:scale-95 cursor-pointer select-none"
             >
               <span>Form Cues</span>
               {showNotes ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5 text-ink-subtle" />}
@@ -240,10 +240,10 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
             <button
               type="button"
               onClick={() => setIsEditingSetup(!isEditingSetup)}
-              className={`text-xs px-3 py-1.5 rounded-full border transition flex items-center gap-1.5 active:scale-95 ${
+              className={`min-h-[38px] text-xs px-3.5 py-2 rounded-full border transition flex items-center gap-1.5 active:scale-95 cursor-pointer select-none ${
                 setupNotes
-                  ? 'bg-surface-3 border-white/40 text-white font-medium'
-                  : 'bg-surface-2 hover:bg-surface-3 border-hairline text-ink-muted hover:text-white'
+                  ? 'bg-surface-3 border-white/40 text-white font-semibold'
+                  : 'bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border border-hairline text-ink-muted hover:text-white'
               }`}
               title="Standardize seat, pin, bench angle, and attachment settings"
             >
@@ -254,7 +254,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               <button
                 type="button"
                 onClick={onClearExerciseSets}
-                className="text-xs px-3 py-1.5 rounded-full bg-surface-2 hover:bg-sale-deep/40 border border-hairline hover:border-sale/40 text-ink-subtle hover:text-sale transition flex items-center gap-1.5 ml-auto active:scale-95"
+                className="min-h-[38px] text-xs px-3.5 py-2 rounded-full bg-surface-2 hover:bg-sale-deep/40 active:bg-sale/20 border border-hairline hover:border-sale/40 text-ink-subtle hover:text-sale transition flex items-center gap-1.5 ml-auto active:scale-95 cursor-pointer select-none"
                 title="Reset all recorded sets for this exercise"
               >
                 <Trash2 className="w-3.5 h-3.5" />
@@ -453,18 +453,18 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
             </div>
 
             {/* Steppers for Weight & Reps */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {/* Weight input with Steppers */}
-              <div className="p-3.5 bg-surface-2 border border-hairline space-y-2.5">
+              <div className="p-3.5 sm:p-4 bg-surface-2 border border-hairline space-y-3">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-mono font-semibold text-ink-subtle uppercase tracking-wider">Weight (kg)</label>
                   <span className="text-[10px] font-mono text-ink-tertiary">Step ±2.5kg</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <button
                     type="button"
                     onClick={() => setInputWeight((prev) => Math.max(0, Math.round((prev - 2.5) * 2) / 2))}
-                    className="w-11 h-11 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-mono text-xl font-bold flex items-center justify-center transition active:scale-90 cursor-pointer"
+                    className="w-12 h-12 rounded-full bg-surface-3 hover:bg-surface-4 active:bg-white active:text-black border border-hairline text-white font-mono text-2xl font-bold flex items-center justify-center transition active:scale-95 shrink-0 cursor-pointer select-none"
                     title="Minus 2.5kg"
                   >
                     -
@@ -474,25 +474,25 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                     step="0.5"
                     value={inputWeight}
                     onChange={(e) => setInputWeight(parseFloat(e.target.value) || 0)}
-                    className="flex-1 bg-surface-1 border border-hairline focus:border-white text-white rounded-md py-2.5 text-center text-2xl font-mono font-bold outline-none transition"
+                    className="flex-1 min-w-0 bg-surface-1 border border-hairline focus:border-white text-white rounded-md h-12 text-center text-2xl sm:text-3xl font-mono font-bold outline-none transition"
                   />
                   <button
                     type="button"
                     onClick={() => setInputWeight((prev) => Math.round((prev + 2.5) * 2) / 2)}
-                    className="w-11 h-11 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-mono text-xl font-bold flex items-center justify-center transition active:scale-90 cursor-pointer"
+                    className="w-12 h-12 rounded-full bg-surface-3 hover:bg-surface-4 active:bg-white active:text-black border border-hairline text-white font-mono text-2xl font-bold flex items-center justify-center transition active:scale-95 shrink-0 cursor-pointer select-none"
                     title="Plus 2.5kg"
                   >
                     +
                   </button>
                 </div>
                 {/* Plate quick buttons */}
-                <div className="flex gap-1.5 pt-0.5">
+                <div className="grid grid-cols-4 gap-1.5 pt-1">
                   {[-5, -2.5, +2.5, +5].map((delta) => (
                     <button
                       key={delta}
                       type="button"
                       onClick={() => setInputWeight((prev) => Math.max(0, prev + delta))}
-                      className="flex-1 py-1 text-xs font-mono bg-surface-3 hover:bg-surface-4 border border-hairline text-ink-subtle hover:text-white rounded-md transition active:scale-95"
+                      className="min-h-[38px] py-2 text-xs font-mono font-semibold bg-surface-3 hover:bg-surface-4 active:bg-white active:text-black border border-hairline text-ink-muted hover:text-white rounded-md transition active:scale-95 flex items-center justify-center cursor-pointer select-none"
                     >
                       {delta > 0 ? `+${delta}` : delta}
                     </button>
@@ -501,16 +501,16 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               </div>
 
               {/* Reps input with Steppers */}
-              <div className="p-3.5 bg-surface-2 border border-hairline space-y-2.5">
+              <div className="p-3.5 sm:p-4 bg-surface-2 border border-hairline space-y-3">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-mono font-semibold text-ink-subtle uppercase tracking-wider">Reps</label>
                   <span className="text-[10px] font-mono text-ink-tertiary">Target: {exercise.reps}</span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <button
                     type="button"
                     onClick={() => setInputReps((prev) => Math.max(1, prev - 1))}
-                    className="w-11 h-11 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-mono text-xl font-bold flex items-center justify-center transition active:scale-90 cursor-pointer"
+                    className="w-12 h-12 rounded-full bg-surface-3 hover:bg-surface-4 active:bg-white active:text-black border border-hairline text-white font-mono text-2xl font-bold flex items-center justify-center transition active:scale-95 shrink-0 cursor-pointer select-none"
                     title="Minus 1 rep"
                   >
                     -
@@ -519,28 +519,28 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                     type="number"
                     value={inputReps}
                     onChange={(e) => setInputReps(parseInt(e.target.value) || 0)}
-                    className="flex-1 bg-surface-1 border border-hairline focus:border-white text-white rounded-md py-2.5 text-center text-2xl font-mono font-bold outline-none transition"
+                    className="flex-1 min-w-0 bg-surface-1 border border-hairline focus:border-white text-white rounded-md h-12 text-center text-2xl sm:text-3xl font-mono font-bold outline-none transition"
                   />
                   <button
                     type="button"
                     onClick={() => setInputReps((prev) => prev + 1)}
-                    className="w-11 h-11 rounded-full bg-surface-3 hover:bg-surface-4 border border-hairline text-white font-mono text-xl font-bold flex items-center justify-center transition active:scale-90 cursor-pointer"
+                    className="w-12 h-12 rounded-full bg-surface-3 hover:bg-surface-4 active:bg-white active:text-black border border-hairline text-white font-mono text-2xl font-bold flex items-center justify-center transition active:scale-95 shrink-0 cursor-pointer select-none"
                     title="Plus 1 rep"
                   >
                     +
                   </button>
                 </div>
                 {/* Common rep targets */}
-                <div className="flex gap-1.5 pt-0.5">
+                <div className="grid grid-cols-4 gap-1.5 pt-1">
                   {[8, 10, 12, 15].map((r) => (
                     <button
                       key={r}
                       type="button"
                       onClick={() => setInputReps(r)}
-                      className={`flex-1 py-1 text-xs font-mono border rounded-md transition active:scale-95 ${
+                      className={`min-h-[38px] py-2 text-xs font-mono border rounded-md transition active:scale-95 flex items-center justify-center cursor-pointer select-none ${
                         inputReps === r
-                          ? 'bg-white text-black font-bold border-white'
-                          : 'bg-surface-3 hover:bg-surface-4 border-hairline text-ink-subtle hover:text-white'
+                          ? 'bg-white text-black font-bold border-white shadow-sm'
+                          : 'bg-surface-3 hover:bg-surface-4 active:bg-white active:text-black border-hairline text-ink-muted hover:text-white'
                       }`}
                     >
                       {r}
@@ -550,21 +550,21 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               </div>
             </div>
 
-            {/* Universal Nike-Style White CTA Pill */}
+            {/* Universal Nike-Style White CTA Pill (Minimum 52px Touch Target) */}
             <button
               type="button"
               onClick={handleCompleteCurrentSet}
-              className="w-full min-h-[48px] py-3 px-4 sm:px-6 bg-white hover:bg-neutral-200 active:scale-[0.98] text-black font-sans font-bold text-xs sm:text-sm rounded-full transition duration-150 flex items-center justify-between gap-2 shadow-lg cursor-pointer uppercase tracking-wider"
+              className="w-full min-h-[52px] py-3.5 px-4 sm:px-6 bg-white hover:bg-neutral-200 active:scale-[0.98] text-black font-sans font-bold text-xs sm:text-sm rounded-full transition duration-150 flex items-center justify-between gap-2 shadow-lg cursor-pointer uppercase tracking-wider select-none"
             >
-              <div className="flex items-center gap-2 truncate">
-                <Check className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5] shrink-0" />
+              <div className="flex items-center gap-2.5 truncate">
+                <Check className="w-5 h-5 stroke-[2.5] shrink-0" />
                 <span className="truncate">
                   {editingSetIndex !== null
                     ? `Save Set ${editingSetIndex + 1}`
                     : `Log Set ${currentSetIndex + 1} of ${exercise.workingSets}`}
                 </span>
               </div>
-              <span className="font-mono text-[10px] sm:text-xs px-2 sm:px-3 py-1 rounded-full bg-black/10 text-black font-semibold shrink-0 whitespace-nowrap">
+              <span className="font-mono text-xs px-3 py-1.5 rounded-full bg-black/10 text-black font-bold shrink-0 whitespace-nowrap">
                 {inputWeight}kg × {inputReps}
               </span>
             </button>
@@ -628,18 +628,18 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                   onClick={() => {
                     if (logged) handleEditSet(idx);
                   }}
-                  className={`py-2 px-2.5 border text-center text-xs font-mono transition relative group ${
+                  className={`min-h-[58px] p-2.5 sm:p-3 border text-center text-xs font-mono transition relative group select-none ${
                     logged
                       ? isBeingEdited
                         ? 'bg-surface-3 border-white text-white ring-2 ring-white/50'
-                        : 'bg-surface-2 hover:bg-surface-3 border-hairline text-white cursor-pointer'
+                        : 'bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border-hairline text-white cursor-pointer'
                       : isCurrent
                       ? 'bg-surface-1 border-white text-white'
                       : 'bg-surface-1/40 border-hairline text-ink-tertiary'
                   }`}
                 >
                   <div className="flex items-center justify-between text-[10px] text-ink-subtle">
-                    <span>SET {idx + 1}</span>
+                    <span className="font-bold">SET {idx + 1}</span>
                     {logged && (
                       <button
                         type="button"
@@ -648,14 +648,14 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
                           onDeleteSet(idx);
                         }}
                         title="Delete set"
-                        className="opacity-0 group-hover:opacity-100 text-ink-subtle hover:text-sale transition"
+                        className="w-5 h-5 -mr-1 -mt-1 rounded flex items-center justify-center text-ink-subtle hover:text-sale active:scale-95 transition"
                       >
-                        <Trash2 className="w-3 h-3" />
+                        <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     )}
                   </div>
-                  <div className="mt-1 font-bold text-white">
-                    {logged ? `${logged.weight}k × ${logged.reps}` : '—'}
+                  <div className="mt-1 font-bold text-sm text-white">
+                    {logged ? `${logged.weight}kg × ${logged.reps}` : '—'}
                   </div>
                   {logged?.techniqueDetail && (
                     <div className="text-[9px] text-ink-muted font-mono truncate mt-0.5" title={logged.techniqueDetail}>
