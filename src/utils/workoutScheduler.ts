@@ -1,6 +1,6 @@
 import { WORKOUT_PLAN_DATA } from '../data/workoutPlan';
 import { WorkoutSessionLog, SetLog } from '../types/workout';
-import { areExercisesSame, getCanonicalExerciseName } from './exerciseMatching';
+import { matchesExercise } from './exerciseMatching';
 import { getTodayLocalDateString, CurrentProgressState } from './storage';
 import { AwsWorkoutItem } from './awsApi';
 
@@ -31,15 +31,7 @@ export function findDayPlanByExerciseName(exerciseName: string): {
   for (const week of WORKOUT_PLAN_DATA) {
     for (const day of week.days) {
       if (day.isRestDay) continue;
-      const match = day.exercises.some(
-        (ex) =>
-          ex.name === exerciseName ||
-          areExercisesSame(ex.name, exerciseName) ||
-          getCanonicalExerciseName(ex.name) === getCanonicalExerciseName(exerciseName) ||
-          (ex.substitution1 && (areExercisesSame(ex.substitution1, exerciseName) || ex.substitution1 === exerciseName)) ||
-          (ex.substitution2 && (areExercisesSame(ex.substitution2, exerciseName) || ex.substitution2 === exerciseName))
-      );
-      if (match) {
+      if (day.exercises.some((ex) => matchesExercise(exerciseName, ex))) {
         return {
           weekNumber: week.weekNumber,
           dayId: day.id,
@@ -67,18 +59,10 @@ export function findBestMatchingDayPlan(exerciseNames: string[]): {
   for (const week of WORKOUT_PLAN_DATA) {
     for (const day of week.days) {
       if (day.isRestDay) continue;
-      let score = 0;
-      for (const exName of exerciseNames) {
-        const matches = day.exercises.some(
-          (ex) =>
-            ex.name === exName ||
-            areExercisesSame(ex.name, exName) ||
-            getCanonicalExerciseName(ex.name) === getCanonicalExerciseName(exName) ||
-            (ex.substitution1 && (areExercisesSame(ex.substitution1, exName) || ex.substitution1 === exName)) ||
-            (ex.substitution2 && (areExercisesSame(ex.substitution2, exName) || ex.substitution2 === exName))
-        );
-        if (matches) score += 1;
-      }
+      const score = exerciseNames.reduce(
+        (sum, exName) => sum + (day.exercises.some((ex) => matchesExercise(exName, ex)) ? 1 : 0),
+        0
+      );
 
       if (score > maxScore && score > 0) {
         maxScore = score;
@@ -117,13 +101,11 @@ export function reconstructSessionsFromAwsItems(
 
   // Reconstruct each date's session
   Object.entries(itemsByDate).forEach(([date, items]) => {
-    // Check if any item contains explicit DayId
     const explicitDayId = items.find((it) => it.DayId)?.DayId;
     const explicitWeek = items.find((it) => it.WeekNumber)?.WeekNumber;
     const explicitCycle = items.find((it) => it.CycleNumber)?.CycleNumber;
     const explicitDayName = items.find((it) => it.DayName)?.DayName;
 
-    // Check existing local session for this date
     const existingSessionKey = Object.keys(merged).find((k) => k.startsWith(date));
     const existingSession = existingSessionKey ? merged[existingSessionKey] : undefined;
 
@@ -161,13 +143,7 @@ export function reconstructSessionsFromAwsItems(
     const currentExs = [...(merged[sessionKey].exercises || [])];
 
     items.forEach((item) => {
-      let exEntry = currentExs.find(
-        (e) =>
-          e.exerciseName === item.WorkoutName ||
-          areExercisesSame(e.exerciseName, item.WorkoutName) ||
-          getCanonicalExerciseName(e.exerciseName) === getCanonicalExerciseName(item.WorkoutName) ||
-          (item.ExerciseId && e.exerciseId === item.ExerciseId)
-      );
+      let exEntry = currentExs.find((e) => matchesExercise(e, item.WorkoutName) || (item.ExerciseId && e.exerciseId === item.ExerciseId));
 
       if (!exEntry) {
         exEntry = {
@@ -199,7 +175,6 @@ export function reconstructSessionsFromAwsItems(
         setupNotes: item.SetupNotes,
       };
 
-      // Filter out holes and normalize set numbers
       exEntry.sets = rawSets.filter((s): s is SetLog => Boolean(s));
       exEntry.completed = exEntry.sets.length > 0;
     });
@@ -218,7 +193,7 @@ export function isWorkoutSessionComplete(
   weekNumber: number,
   dayId: string
 ): boolean {
-  if (!sessionLog || !sessionLog.exercises || sessionLog.exercises.length === 0) {
+  if (!sessionLog?.exercises?.length) {
     return false;
   }
 
@@ -228,7 +203,6 @@ export function isWorkoutSessionComplete(
     return false;
   }
 
-  // Non-optional exercises must all be completed with working sets logged
   const nonOptionalExercises = dayPlan.exercises.filter(
     (ex) => !ex.name.toLowerCase().includes('(optional)')
   );
@@ -236,37 +210,19 @@ export function isWorkoutSessionComplete(
 
   // Criteria 1: Every non-optional target exercise has completed working sets
   const allTargetsComplete = targetsToCheck.every((ex) => {
-    const exLog = sessionLog.exercises.find(
-      (e) =>
-        e.exerciseId === ex.id ||
-        e.exerciseName === ex.name ||
-        areExercisesSame(e.exerciseName, ex.name) ||
-        getCanonicalExerciseName(e.exerciseName) === getCanonicalExerciseName(ex.name) ||
-        (ex.substitution1 && (areExercisesSame(e.exerciseName, ex.substitution1) || e.exerciseName === ex.substitution1)) ||
-        (ex.substitution2 && (areExercisesSame(e.exerciseName, ex.substitution2) || e.exerciseName === ex.substitution2))
-    );
-    return !!(exLog && exLog.sets && exLog.sets.filter((s) => s && s.completed).length >= ex.workingSets);
+    const exLog = sessionLog.exercises.find((e) => matchesExercise(e, ex));
+    return Boolean(exLog?.sets && exLog.sets.filter((s) => s && s.completed).length >= ex.workingSets);
   });
 
   if (allTargetsComplete) return true;
 
-  // Criteria 2: Substantial completion check (all planned non-optional exercises logged with at least 1-2 sets or >=80% volume)
+  // Criteria 2: Substantial completion check (all planned non-optional exercises logged with at least 1 set)
   const completedExercisesCount = targetsToCheck.filter((ex) => {
-    const exLog = sessionLog.exercises.find(
-      (e) =>
-        e.exerciseId === ex.id ||
-        e.exerciseName === ex.name ||
-        areExercisesSame(e.exerciseName, ex.name) ||
-        getCanonicalExerciseName(e.exerciseName) === getCanonicalExerciseName(ex.name)
-    );
-    return exLog && exLog.sets && exLog.sets.filter((s) => s && s.completed).length > 0;
+    const exLog = sessionLog.exercises.find((e) => matchesExercise(e, ex));
+    return Boolean(exLog?.sets && exLog.sets.some((s) => s && s.completed));
   }).length;
 
-  if (completedExercisesCount >= targetsToCheck.length) {
-    return true;
-  }
-
-  return false;
+  return completedExercisesCount >= targetsToCheck.length;
 }
 
 /**
@@ -281,66 +237,30 @@ export function getNextScheduledWorkout(
   const currentWeekPlan = WORKOUT_PLAN_DATA.find((w) => w.weekNumber === currentWeek) || WORKOUT_PLAN_DATA[0];
   const currentDayIdx = currentWeekPlan.days.findIndex((d) => d.id === currentDayId);
 
-  if (currentDayIdx >= 0 && currentDayIdx < currentWeekPlan.days.length - 1) {
-    const nextDay = currentWeekPlan.days[currentDayIdx + 1];
-    // If next day is a rest day, check if there's a subsequent active day in the same week
-    if (nextDay.isRestDay) {
-      if (currentDayIdx + 2 < currentWeekPlan.days.length && !currentWeekPlan.days[currentDayIdx + 2].isRestDay) {
-        return {
-          cycle: currentCycle,
-          week: currentWeek,
-          dayId: currentWeekPlan.days[currentDayIdx + 2].id,
-        };
-      } else {
-        // Rest day is end of the week, advance to next week Day 1
-        if (currentWeek < 10) {
-          const nextWeekNum = currentWeek + 1;
-          const nextWeekPlan = WORKOUT_PLAN_DATA.find((w) => w.weekNumber === nextWeekNum) || WORKOUT_PLAN_DATA[0];
-          const firstActiveDay = nextWeekPlan.days.find((d) => !d.isRestDay) || nextWeekPlan.days[0];
-          return {
-            cycle: currentCycle,
-            week: nextWeekNum,
-            dayId: firstActiveDay.id,
-          };
-        } else {
-          // Cycle 10 complete -> advance to Cycle + 1, Week 1
-          const nextCycle = currentCycle + 1;
-          const week1Plan = WORKOUT_PLAN_DATA[0];
-          const firstActiveDay = week1Plan.days.find((d) => !d.isRestDay) || week1Plan.days[0];
-          return {
-            cycle: nextCycle,
-            week: 1,
-            dayId: firstActiveDay.id,
-          };
-        }
-      }
-    } else {
+  // Check if there is another non-rest day later in the same week
+  if (currentDayIdx >= 0) {
+    const remainingDays = currentWeekPlan.days.slice(currentDayIdx + 1);
+    const nextActiveDayInWeek = remainingDays.find((d) => !d.isRestDay);
+    if (nextActiveDayInWeek) {
       return {
         cycle: currentCycle,
         week: currentWeek,
-        dayId: nextDay.id,
+        dayId: nextActiveDayInWeek.id,
       };
     }
-  } else if (currentWeek < 10) {
-    const nextWeekNum = currentWeek + 1;
-    const nextWeekPlan = WORKOUT_PLAN_DATA.find((w) => w.weekNumber === nextWeekNum) || WORKOUT_PLAN_DATA[0];
-    const firstActiveDay = nextWeekPlan.days.find((d) => !d.isRestDay) || nextWeekPlan.days[0];
-    return {
-      cycle: currentCycle,
-      week: nextWeekNum,
-      dayId: firstActiveDay.id,
-    };
-  } else {
-    // Cycle complete
-    const nextCycle = currentCycle + 1;
-    const week1Plan = WORKOUT_PLAN_DATA[0];
-    const firstActiveDay = week1Plan.days.find((d) => !d.isRestDay) || week1Plan.days[0];
-    return {
-      cycle: nextCycle,
-      week: 1,
-      dayId: firstActiveDay.id,
-    };
   }
+
+  // Advance to next week or next mesocycle
+  const nextWeekNum = currentWeek < 10 ? currentWeek + 1 : 1;
+  const nextCycle = currentWeek < 10 ? currentCycle : currentCycle + 1;
+  const nextWeekPlan = WORKOUT_PLAN_DATA.find((w) => w.weekNumber === nextWeekNum) || WORKOUT_PLAN_DATA[0];
+  const firstActiveDay = nextWeekPlan.days.find((d) => !d.isRestDay) || nextWeekPlan.days[0];
+
+  return {
+    cycle: nextCycle,
+    week: nextWeekNum,
+    dayId: firstActiveDay.id,
+  };
 }
 
 /**
@@ -356,10 +276,8 @@ export function getAutoResumeWorkoutPosition(
   today: string = getTodayLocalDateString()
 ): AutoResumePosition {
   const sessionEntries = Object.entries(logs).filter(([, session]) => {
-    return (
-      session &&
-      session.exercises &&
-      session.exercises.some((e) => e.sets && e.sets.some((s) => s && s.completed))
+    return Boolean(
+      session?.exercises?.some((e) => e.sets?.some((s) => s && s.completed))
     );
   });
 
@@ -371,10 +289,9 @@ export function getAutoResumeWorkoutPosition(
       if (dateA !== dateB) {
         return dateB.localeCompare(dateA);
       }
-      // If same date, compare latest set timestamp
       const getMaxTimestamp = (session: WorkoutSessionLog) => {
         let maxTs = '';
-        session.exercises.forEach((ex) => {
+        session.exercises?.forEach((ex) => {
           ex.sets?.forEach((s) => {
             if (s.timestamp && s.timestamp > maxTs) maxTs = s.timestamp;
           });
@@ -386,7 +303,6 @@ export function getAutoResumeWorkoutPosition(
       if (tsA && tsB && tsA !== tsB) {
         return tsB.localeCompare(tsA);
       }
-      // Fallback: compare cycle/week
       const cycleA = a.cycleNumber || 1;
       const cycleB = b.cycleNumber || 1;
       if (cycleA !== cycleB) return cycleB - cycleA;
@@ -399,8 +315,6 @@ export function getAutoResumeWorkoutPosition(
     const dayId = latestSession.dayId || 'w1-d1';
 
     const isComplete = isWorkoutSessionComplete(latestSession, week, dayId);
-
-    // If session is complete OR session was logged on a past day with substantial workout completed (>=3 exercises)
     const isPastSessionWithExercises =
       latestSession.date &&
       today > latestSession.date &&
@@ -420,35 +334,18 @@ export function getAutoResumeWorkoutPosition(
       const weekPlan = WORKOUT_PLAN_DATA.find((w) => w.weekNumber === week) || WORKOUT_PLAN_DATA[0];
       const dayPlan = weekPlan.days.find((d) => d.id === dayId) || weekPlan.days[0];
 
-      let nextExIdx = 0;
-      // First try to find the first non-optional exercise that isn't fully completed
-      const foundIdx = dayPlan.exercises.findIndex((ex) => {
-        const isOptional = ex.name.toLowerCase().includes('(optional)');
-        if (isOptional) return false;
-        const exLog = latestSession.exercises.find(
-          (e) =>
-            e.exerciseId === ex.id ||
-            e.exerciseName === ex.name ||
-            areExercisesSame(e.exerciseName, ex.name) ||
-            getCanonicalExerciseName(e.exerciseName) === getCanonicalExerciseName(ex.name) ||
-            (ex.substitution1 && (areExercisesSame(e.exerciseName, ex.substitution1) || e.exerciseName === ex.substitution1)) ||
-            (ex.substitution2 && (areExercisesSame(e.exerciseName, ex.substitution2) || e.exerciseName === ex.substitution2))
-        );
+      // Find first non-optional exercise not completed
+      let nextExIdx = dayPlan.exercises.findIndex((ex) => {
+        if (ex.name.toLowerCase().includes('(optional)')) return false;
+        const exLog = latestSession.exercises.find((e) => matchesExercise(e, ex));
         const completedSetsCount = exLog ? exLog.sets.filter((s) => s && s.completed).length : 0;
         return completedSetsCount < ex.workingSets;
       });
 
-      if (foundIdx >= 0) {
-        nextExIdx = foundIdx;
-      } else {
-        // Look for any uncompleted exercise including optional if started
+      if (nextExIdx < 0) {
+        // Look for any uncompleted exercise
         const firstUnfinished = dayPlan.exercises.findIndex((ex) => {
-          const exLog = latestSession.exercises.find(
-            (e) =>
-              e.exerciseId === ex.id ||
-              e.exerciseName === ex.name ||
-              areExercisesSame(e.exerciseName, ex.name)
-          );
+          const exLog = latestSession.exercises.find((e) => matchesExercise(e, ex));
           const completedSetsCount = exLog ? exLog.sets.filter((s) => s && s.completed).length : 0;
           return completedSetsCount < ex.workingSets;
         });
@@ -457,12 +354,7 @@ export function getAutoResumeWorkoutPosition(
 
       const activeTargetExercise = dayPlan.exercises[nextExIdx];
       const activeExLog = activeTargetExercise
-        ? latestSession.exercises.find(
-            (e) =>
-              e.exerciseId === activeTargetExercise.id ||
-              e.exerciseName === activeTargetExercise.name ||
-              areExercisesSame(e.exerciseName, activeTargetExercise.name)
-          )
+        ? latestSession.exercises.find((e) => matchesExercise(e, activeTargetExercise))
         : undefined;
       const currentSetsCount = activeExLog ? activeExLog.sets.filter((s) => s && s.completed).length : 0;
 

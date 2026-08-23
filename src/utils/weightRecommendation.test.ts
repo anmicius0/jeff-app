@@ -1,10 +1,9 @@
+import { describe, test, expect } from 'bun:test';
 import { calculateAdaptiveRecommendation, parseTargetReps } from './weightRecommendation';
 import { getNextScheduledWorkout } from './workoutScheduler';
 import { Exercise, SetLog } from '../types/workout';
 
-function runTests() {
-  console.log('Running Adaptive Weight Recommendation tests...');
-
+describe('Adaptive Weight Recommendation', () => {
   const mockExercise: Exercise = {
     id: 'ex-1',
     name: 'Barbell Bench Press',
@@ -18,95 +17,104 @@ function runTests() {
     notes: 'Standard bench press',
   };
 
-  // Test 1: Rep parsing
-  const reps = parseTargetReps('8–10');
-  console.assert(reps.minReps === 8 && reps.maxReps === 10, 'Target reps parsed correctly');
-
-  const repsHyphen = parseTargetReps('10-12');
-  console.assert(repsHyphen.minReps === 10 && repsHyphen.maxReps === 12, 'Target reps with hyphen parsed correctly');
-
-  // Test 2: Set 1 (no sets logged today, no prior history) -> Baseline
-  const recSet1NoHistory = calculateAdaptiveRecommendation({
-    exercise: mockExercise,
-    currentSetIndex: 0,
-    completedSets: [],
+  test('parses en-dash rep strings', () => {
+    const reps = parseTargetReps('8–10');
+    expect(reps.minReps).toBe(8);
+    expect(reps.maxReps).toBe(10);
   });
-  console.assert(recSet1NoHistory.trend === 'baseline', 'Set 1 with no history gives baseline');
-  console.assert(recSet1NoHistory.recommendedWeight > 0, 'Baseline weight is positive');
 
-  // Test 3: Set 2 within session - Set 1 exceeded reps (12 reps with target 8-10) -> Auto-increase (+2.5kg)
-  const completedSet1Easy: SetLog = {
-    setNumber: 1,
-    weight: 80,
-    reps: 12,
-    rpe: 8,
-    completed: true,
-  };
-  const recSet2Increase = calculateAdaptiveRecommendation({
-    exercise: mockExercise,
-    currentSetIndex: 1,
-    completedSets: [completedSet1Easy],
+  test('parses hyphen rep strings', () => {
+    const repsHyphen = parseTargetReps('10-12');
+    expect(repsHyphen.minReps).toBe(10);
+    expect(repsHyphen.maxReps).toBe(12);
   });
-  console.assert(recSet2Increase.trend === 'increase', 'Set 2 auto-increases on high reps');
-  console.assert(recSet2Increase.recommendedWeight === 82.5, `Recommended weight should be 82.5, got ${recSet2Increase.recommendedWeight}`);
 
-  // Test 4: Set 2 within session - Set 1 low RPE (RPE 6.5) -> Auto-increase (+2.5kg)
-  const completedSet1LowRpe: SetLog = {
-    setNumber: 1,
-    weight: 80,
-    reps: 9,
-    rpe: 6.5,
-    completed: true,
-  };
-  const recSet2LowRpe = calculateAdaptiveRecommendation({
-    exercise: mockExercise,
-    currentSetIndex: 1,
-    completedSets: [completedSet1LowRpe],
+  test('gives baseline weight for Set 1 without prior history', () => {
+    const rec = calculateAdaptiveRecommendation({
+      exercise: mockExercise,
+      currentSetIndex: 0,
+      completedSets: [],
+    });
+    expect(rec.trend).toBe('baseline');
+    expect(rec.recommendedWeight).toBeGreaterThan(0);
   });
-  console.assert(recSet2LowRpe.trend === 'increase', 'Set 2 auto-increases on low RPE');
-  console.assert(recSet2LowRpe.recommendedWeight === 82.5, `Recommended weight should be 82.5, got ${recSet2LowRpe.recommendedWeight}`);
 
-  // Test 5: Set 2 within session - Set 1 failed reps (6 reps when target was 8-10) -> Auto-decrease (-2.5kg)
-  const completedSet1Failed: SetLog = {
-    setNumber: 1,
-    weight: 80,
-    reps: 6,
-    rpe: 10,
-    completed: true,
-  };
-  const recSet2Decrease = calculateAdaptiveRecommendation({
-    exercise: mockExercise,
-    currentSetIndex: 1,
-    completedSets: [completedSet1Failed],
+  test('auto-increases weight (+2.5kg) on high reps in previous set', () => {
+    const completedSet1Easy: SetLog = {
+      setNumber: 1,
+      weight: 80,
+      reps: 12,
+      rpe: 8,
+      completed: true,
+    };
+    const rec = calculateAdaptiveRecommendation({
+      exercise: mockExercise,
+      currentSetIndex: 1,
+      completedSets: [completedSet1Easy],
+    });
+    expect(rec.trend).toBe('increase');
+    expect(rec.recommendedWeight).toBe(82.5);
   });
-  console.assert(recSet2Decrease.trend === 'decrease', 'Set 2 auto-decreases on failed reps');
-  console.assert(recSet2Decrease.recommendedWeight === 77.5, `Recommended weight should be 77.5, got ${recSet2Decrease.recommendedWeight}`);
 
-  // Test 6: Set 2 within session - Set 1 on target (9 reps @ RPE 8) -> Maintain
-  const completedSet1OnTarget: SetLog = {
-    setNumber: 1,
-    weight: 80,
-    reps: 9,
-    rpe: 8,
-    completed: true,
-  };
-  const recSet2Maintain = calculateAdaptiveRecommendation({
-    exercise: mockExercise,
-    currentSetIndex: 1,
-    completedSets: [completedSet1OnTarget],
+  test('auto-increases weight (+2.5kg) on low RPE in previous set', () => {
+    const completedSet1LowRpe: SetLog = {
+      setNumber: 1,
+      weight: 80,
+      reps: 9,
+      rpe: 6.5,
+      completed: true,
+    };
+    const rec = calculateAdaptiveRecommendation({
+      exercise: mockExercise,
+      currentSetIndex: 1,
+      completedSets: [completedSet1LowRpe],
+    });
+    expect(rec.trend).toBe('increase');
+    expect(rec.recommendedWeight).toBe(82.5);
   });
-  console.assert(recSet2Maintain.trend === 'maintain', 'Set 2 maintains weight on target performance');
-  console.assert(recSet2Maintain.recommendedWeight === 80, `Recommended weight should be 80, got ${recSet2Maintain.recommendedWeight}`);
 
-  // Test 7: Scheduler - Next workout day progression
-  const nextDay = getNextScheduledWorkout(1, 1, 'w1-d1');
-  console.assert(nextDay.dayId === 'w1-d2', `w1-d1 advances to w1-d2, got ${nextDay.dayId}`);
+  test('auto-decreases weight (-2.5kg) on failed reps in previous set', () => {
+    const completedSet1Failed: SetLog = {
+      setNumber: 1,
+      weight: 80,
+      reps: 6,
+      rpe: 10,
+      completed: true,
+    };
+    const rec = calculateAdaptiveRecommendation({
+      exercise: mockExercise,
+      currentSetIndex: 1,
+      completedSets: [completedSet1Failed],
+    });
+    expect(rec.trend).toBe('decrease');
+    expect(rec.recommendedWeight).toBe(77.5);
+  });
 
-  // Test 8: Scheduler - Week 10 Day 6 (last active workout of cycle) cycle completion
-  const nextCycle = getNextScheduledWorkout(1, 10, 'w10-d6');
-  console.assert(nextCycle.cycle === 2 && nextCycle.week === 1, `w10-d6 advances to Cycle 2 Week 1, got C${nextCycle.cycle} W${nextCycle.week}`);
+  test('maintains weight when previous set was on target', () => {
+    const completedSet1OnTarget: SetLog = {
+      setNumber: 1,
+      weight: 80,
+      reps: 9,
+      rpe: 8,
+      completed: true,
+    };
+    const rec = calculateAdaptiveRecommendation({
+      exercise: mockExercise,
+      currentSetIndex: 1,
+      completedSets: [completedSet1OnTarget],
+    });
+    expect(rec.trend).toBe('maintain');
+    expect(rec.recommendedWeight).toBe(80);
+  });
 
-  console.log('All tests passed successfully!');
-}
+  test('scheduler advances from w1-d1 to w1-d2', () => {
+    const nextDay = getNextScheduledWorkout(1, 1, 'w1-d1');
+    expect(nextDay.dayId).toBe('w1-d2');
+  });
 
-runTests();
+  test('scheduler advances to Cycle 2 Week 1 upon completing Week 10 Day 6', () => {
+    const nextCycle = getNextScheduledWorkout(1, 10, 'w10-d6');
+    expect(nextCycle.cycle).toBe(2);
+    expect(nextCycle.week).toBe(1);
+  });
+});

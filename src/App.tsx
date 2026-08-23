@@ -33,35 +33,13 @@ import {
   deleteAwsExercise, 
   deleteAwsSession 
 } from './utils/awsApi';
-import { findPreviousExercisePerformance, areExercisesSame, getCanonicalExerciseName } from './utils/exerciseMatching';
+import { findPreviousExercisePerformance, matchesExercise } from './utils/exerciseMatching';
 import { 
   getNextScheduledWorkout, 
   isWorkoutSessionComplete, 
   getAutoResumeWorkoutPosition, 
   reconstructSessionsFromAwsItems
 } from './utils/workoutScheduler';
-
-export function matchesExercise(
-  logEntry: { exerciseId?: string; exerciseName?: string } | undefined,
-  target: { id?: string; name?: string; substitution1?: string; substitution2?: string } | undefined
-): boolean {
-  if (!logEntry || !target) return false;
-  const logId = logEntry.exerciseId || '';
-  const logName = logEntry.exerciseName || '';
-  const targetId = target.id || '';
-  const targetName = target.name || '';
-
-  if (targetId && logId === targetId) return true;
-  if (targetName && logName === targetName) return true;
-  if (targetName && logId === `aws-${targetName}`) return true;
-  if (targetId && logId.endsWith(targetId)) return true;
-  if (targetName && areExercisesSame(logName, targetName)) return true;
-  if (targetName && getCanonicalExerciseName(logName) === getCanonicalExerciseName(targetName)) return true;
-  if (target.substitution1 && (areExercisesSame(logName, target.substitution1) || logName === target.substitution1)) return true;
-  if (target.substitution2 && (areExercisesSame(logName, target.substitution2) || logName === target.substitution2)) return true;
-
-  return false;
-}
 
 export function App() {
   const [currentCycle, setCurrentCycle] = useState<number>(1);
@@ -92,45 +70,22 @@ export function App() {
     const savedLogs = loadWorkoutLogs();
     setLogs(savedLogs);
 
-    const progress = loadCurrentProgress();
-    const today = getTodayLocalDateString();
+    const applyPosition = (pos: { cycle: number; week: number; dayId: string; exerciseIndex: number; selectedDate: string }) => {
+      setCurrentCycle(pos.cycle);
+      setCurrentWeek(pos.week);
+      setCurrentDayId(pos.dayId);
+      setActiveExerciseIndex(pos.exerciseIndex);
+      setSelectedDate(pos.selectedDate);
+    };
 
-    const initialPos = getAutoResumeWorkoutPosition(savedLogs, progress, today);
-    setCurrentCycle(initialPos.cycle);
-    setCurrentWeek(initialPos.week);
-    setCurrentDayId(initialPos.dayId);
-    setActiveExerciseIndex(initialPos.exerciseIndex);
-    setSelectedDate(initialPos.selectedDate);
-
-    saveCurrentProgress({
-      currentCycle: initialPos.cycle,
-      currentWeek: initialPos.week,
-      currentDayId: initialPos.dayId,
-      activeExerciseIndex: initialPos.exerciseIndex,
-      activeSetIndex: initialPos.setIndex,
-      lastActiveDate: initialPos.selectedDate,
-    });
+    const initialPos = getAutoResumeWorkoutPosition(savedLogs, loadCurrentProgress(), getTodayLocalDateString());
+    applyPosition(initialPos);
 
     // Re-check on visibility change (e.g. app kept open in browser background overnight)
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible') {
-        const currentLocalDate = getTodayLocalDateString();
-        const allLogs = loadWorkoutLogs();
-        const currentProg = loadCurrentProgress();
-        const nextPos = getAutoResumeWorkoutPosition(allLogs, currentProg, currentLocalDate);
-        setCurrentCycle(nextPos.cycle);
-        setCurrentWeek(nextPos.week);
-        setCurrentDayId(nextPos.dayId);
-        setActiveExerciseIndex(nextPos.exerciseIndex);
-        setSelectedDate(nextPos.selectedDate);
-        saveCurrentProgress({
-          currentCycle: nextPos.cycle,
-          currentWeek: nextPos.week,
-          currentDayId: nextPos.dayId,
-          activeExerciseIndex: nextPos.exerciseIndex,
-          activeSetIndex: nextPos.setIndex,
-          lastActiveDate: nextPos.selectedDate,
-        });
+        const nextPos = getAutoResumeWorkoutPosition(loadWorkoutLogs(), loadCurrentProgress(), getTodayLocalDateString());
+        applyPosition(nextPos);
       }
     };
 
@@ -142,23 +97,7 @@ export function App() {
         setLogs((prev) => {
           const merged = reconstructSessionsFromAwsItems(remoteItems, prev);
           Object.values(merged).forEach((session) => saveWorkoutLog(session));
-
-          // Auto-resume from the freshly merged logs
-          const updatedPos = getAutoResumeWorkoutPosition(merged, loadCurrentProgress(), getTodayLocalDateString());
-          setCurrentCycle(updatedPos.cycle);
-          setCurrentWeek(updatedPos.week);
-          setCurrentDayId(updatedPos.dayId);
-          setActiveExerciseIndex(updatedPos.exerciseIndex);
-          setSelectedDate(updatedPos.selectedDate);
-          saveCurrentProgress({
-            currentCycle: updatedPos.cycle,
-            currentWeek: updatedPos.week,
-            currentDayId: updatedPos.dayId,
-            activeExerciseIndex: updatedPos.exerciseIndex,
-            activeSetIndex: updatedPos.setIndex,
-            lastActiveDate: updatedPos.selectedDate,
-          });
-
+          applyPosition(getAutoResumeWorkoutPosition(merged, loadCurrentProgress(), getTodayLocalDateString()));
           return merged;
         });
       }
@@ -630,9 +569,7 @@ export function App() {
   );
   const completedExercisesCount = currentDay.exercises.filter((ex) => {
     const exName = exerciseOverrides[ex.id] || ex.name;
-    const log = currentSessionLog.exercises.find((e) =>
-      matchesExercise(e, { id: ex.id, name: exName, substitution1: ex.substitution1, substitution2: ex.substitution2 })
-    );
+    const log = currentSessionLog.exercises.find((e) => matchesExercise(e, { ...ex, name: exName }));
     const setsCount = log?.sets ? log.sets.filter((s) => s && s.completed).length : 0;
     return setsCount >= ex.workingSets || Boolean(log?.completed);
   }).length;
@@ -848,12 +785,7 @@ export function App() {
                   const exName = exerciseOverrides[rawEx.id] || rawEx.name;
                   const isSelected = idx === activeExerciseIndex;
                   const exLog = currentSessionLog.exercises.find((e) =>
-                    matchesExercise(e, {
-                      id: rawEx.id,
-                      name: exName,
-                      substitution1: rawEx.substitution1,
-                      substitution2: rawEx.substitution2,
-                    })
+                    matchesExercise(e, { ...rawEx, name: exName })
                   );
                   const setsCount = exLog?.sets ? exLog.sets.filter((s) => s && s.completed).length : 0;
                   const isDone = setsCount >= rawEx.workingSets || Boolean(exLog?.completed);

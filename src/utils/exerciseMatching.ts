@@ -32,6 +32,34 @@ export function areExercisesSame(nameA: string, nameB: string): boolean {
 }
 
 /**
+ * Robust matching between a log entry (or exercise name/ID) and a target exercise definition
+ * supporting IDs, canonical aliases, AWS prefixes, and substitutions.
+ */
+export function matchesExercise(
+  logEntry: { exerciseId?: string; exerciseName?: string } | string | undefined,
+  target: { id?: string; name?: string; substitution1?: string; substitution2?: string } | string | undefined
+): boolean {
+  if (!logEntry || !target) return false;
+
+  const logId = typeof logEntry === 'string' ? '' : (logEntry.exerciseId || '');
+  const logName = typeof logEntry === 'string' ? logEntry : (logEntry.exerciseName || '');
+  const targetId = typeof target === 'string' ? '' : (target.id || '');
+  const targetName = typeof target === 'string' ? target : (target.name || '');
+  const sub1 = typeof target === 'string' ? undefined : target.substitution1;
+  const sub2 = typeof target === 'string' ? undefined : target.substitution2;
+
+  if (targetId && logId === targetId) return true;
+  if (targetName && logName === targetName) return true;
+  if (targetName && logId === `aws-${targetName}`) return true;
+  if (targetId && logId.endsWith(targetId)) return true;
+  if (targetName && (areExercisesSame(logName, targetName) || getCanonicalExerciseName(logName) === getCanonicalExerciseName(targetName))) return true;
+  if (sub1 && (areExercisesSame(logName, sub1) || logName === sub1 || getCanonicalExerciseName(logName) === getCanonicalExerciseName(sub1))) return true;
+  if (sub2 && (areExercisesSame(logName, sub2) || logName === sub2 || getCanonicalExerciseName(logName) === getCanonicalExerciseName(sub2))) return true;
+
+  return false;
+}
+
+/**
  * Returns a canonical display name for an exercise
  */
 export function getCanonicalExerciseName(name: string): string {
@@ -79,9 +107,7 @@ export function findPreviousExercisePerformance(
   // Extract all sessions that have logged sets for this exercise
   const candidateSessions = allSessions
     .map((session) => {
-      const matchedEx = session.exercises.find(
-        (e) => areExercisesSame(e.exerciseName, exerciseName) || e.exerciseId.includes(exerciseName)
-      );
+      const matchedEx = session.exercises.find((e) => matchesExercise(e, exerciseName));
       if (!matchedEx || !matchedEx.sets || matchedEx.sets.length === 0) return null;
       return {
         session,
