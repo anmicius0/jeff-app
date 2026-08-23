@@ -598,18 +598,18 @@ export function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-4xl w-full mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6 pb-24">
-        {/* Navigation Tabs with Sliding Pill Background */}
+        {/* Navigation Tabs with Fast Sliding Pill Background */}
         <div className="flex justify-center">
           <div className="relative inline-flex p-1 rounded-full bg-surface-1 border border-hairline shadow-sm">
-            {/* Smooth Sliding Pill Indicator */}
+            {/* Fast Sliding Pill Indicator (150ms) */}
             <div
-              className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-full transition-all duration-300 ease-spring-smooth shadow-md ${
+              className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-full transition-all duration-150 ease-spring-smooth shadow-md ${
                 activeTab === 'workout' ? 'left-1' : 'left-[calc(50%+2px)]'
               }`}
             />
             <button
               onClick={() => setActiveTab('workout')}
-              className={`relative z-10 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-200 flex items-center gap-2 active:scale-95 cursor-pointer select-none ${
+              className={`relative z-10 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-150 flex items-center gap-2 active:scale-95 cursor-pointer select-none ${
                 activeTab === 'workout'
                   ? 'text-black font-bold'
                   : 'text-ink-subtle hover:text-white'
@@ -620,7 +620,7 @@ export function App() {
             </button>
             <button
               onClick={() => setActiveTab('progress')}
-              className={`relative z-10 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-200 flex items-center gap-2 active:scale-95 cursor-pointer select-none ${
+              className={`relative z-10 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-150 flex items-center gap-2 active:scale-95 cursor-pointer select-none ${
                 activeTab === 'progress'
                   ? 'text-black font-bold'
                   : 'text-ink-subtle hover:text-white'

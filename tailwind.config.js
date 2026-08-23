@@ -81,29 +81,29 @@ export default {
       },
       keyframes: {
         'scale-in': {
-          '0%': { opacity: '0', transform: 'scale(0.96)' },
+          '0%': { opacity: '0', transform: 'scale(0.98)' },
           '100%': { opacity: '1', transform: 'scale(1)' },
         },
         'fade-slide-up': {
-          '0%': { opacity: '0', transform: 'translateY(12px)' },
+          '0%': { opacity: '0', transform: 'translateY(6px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'fade-slide-down': {
-          '0%': { opacity: '0', transform: 'translateY(-12px)' },
+          '0%': { opacity: '0', transform: 'translateY(-6px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'tap-pop': {
           '0%': { transform: 'scale(1)' },
-          '50%': { transform: 'scale(0.92)' },
+          '50%': { transform: 'scale(0.95)' },
           '100%': { transform: 'scale(1)' },
         },
         'number-tick': {
-          '0%': { opacity: '0.4', transform: 'translateY(-4px)' },
+          '0%': { opacity: '0.6', transform: 'translateY(-2px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
         },
         'pulse-subtle': {
           '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.4' },
+          '50%': { opacity: '0.5' },
         },
         'shimmer': {
           '0%': { backgroundPosition: '-200% 0' },
@@ -111,12 +111,12 @@ export default {
         },
       },
       animation: {
-        'scale-in': 'scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'fade-slide-up': 'fade-slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'fade-slide-down': 'fade-slide-down 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        'tap-pop': 'tap-pop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1)',
-        'number-tick': 'number-tick 0.15s cubic-bezier(0.16, 1, 0.3, 1)',
-        'pulse-subtle': 'pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'scale-in': 'scale-in 0.12s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-slide-up': 'fade-slide-up 0.14s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-slide-down': 'fade-slide-down 0.14s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'tap-pop': 'tap-pop 0.1s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        'number-tick': 'number-tick 0.08s cubic-bezier(0.16, 1, 0.3, 1)',
+        'pulse-subtle': 'pulse-subtle 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
     },
   },
