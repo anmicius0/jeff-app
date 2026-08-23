@@ -14,6 +14,7 @@ import {
   Target,
   TrendingUp,
   TrendingDown,
+  Zap,
 } from 'lucide-react';
 import { Exercise, SetLog, PreviousPerformanceInfo } from '../../types/workout';
 import { calculateAdaptiveRecommendation, parseTargetReps, AdaptiveWeightRecommendation } from '../../utils/weightRecommendation';
@@ -158,33 +159,33 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
     <div className="w-full space-y-4">
       {/* Exercise Card: Flat 0px container sitting directly on dark surface */}
       <div className="bg-surface-1 border border-hairline p-4 sm:p-6 space-y-5 relative overflow-hidden">
-        {/* Title & Badge */}
-        <div className="space-y-3">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <span className="text-[11px] font-mono tracking-widest text-ink-subtle uppercase block mb-1">
-                Exercise {currentSetIndex + 1 > exercise.workingSets ? exercise.workingSets : currentSetIndex + 1} Target
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-display uppercase tracking-wide text-white leading-tight">
-                {exercise.name}
-              </h2>
-              <div className="flex flex-wrap items-center gap-2 mt-1.5">
-                <span className="text-xs font-mono text-ink-muted">
-                  {exercise.workingSets} Working Sets × {exercise.reps} Reps
-                </span>
-                <span className="text-ink-tertiary">·</span>
-                <span className="text-xs text-ink-subtle flex items-center gap-1 font-mono">
-                  <Clock className="w-3 h-3 text-ink-tertiary" /> {exercise.rest}
-                </span>
-              </div>
-            </div>
-
+        {/* Title & Metadata Header */}
+        <div className="space-y-2">
+          <span className="text-[11px] font-mono tracking-widest text-ink-subtle uppercase block">
+            Exercise {currentSetIndex + 1 > exercise.workingSets ? exercise.workingSets : currentSetIndex + 1} Target
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-display uppercase tracking-wide text-white leading-tight w-full">
+            {exercise.name}
+          </h2>
+          <div className="flex flex-wrap items-center gap-2 pt-0.5">
+            <span className="text-xs font-mono font-bold text-white">
+              {exercise.workingSets} Working Sets × {exercise.reps} Reps
+            </span>
+            <span className="text-ink-tertiary">·</span>
+            <span className="text-xs text-ink-subtle flex items-center gap-1 font-mono">
+              <Clock className="w-3 h-3 text-ink-tertiary" /> {exercise.rest}
+            </span>
             {exercise.intensityTechnique && exercise.intensityTechnique !== 'N/A' && (
-              <span className="shrink-0 text-[11px] font-mono font-medium px-3 py-1 rounded-full bg-surface-2 text-white border border-hairline uppercase tracking-wider">
-                {exercise.intensityTechnique}
-              </span>
+              <>
+                <span className="text-ink-tertiary">·</span>
+                <span className="text-[10px] sm:text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full bg-surface-2 text-white border border-hairline uppercase tracking-wider inline-flex items-center gap-1">
+                  <Zap className="w-3 h-3 text-white" />
+                  <span>{exercise.intensityTechnique}</span>
+                </span>
+              </>
             )}
           </div>
+        </div>
 
           {/* Action Pills: Substitutions, Form Cues & Reset */}
           <div className="flex flex-wrap items-center gap-2 pt-1">
@@ -608,6 +609,5 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
           </div>
         </div>
       </div>
-    </div>
   );
 };
