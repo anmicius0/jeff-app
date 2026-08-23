@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { WorkoutSessionLog, SetLog } from '../../types/workout';
 import { getCanonicalExerciseName } from '../../utils/exerciseMatching';
+import { TabSwitch } from '../common/TabSwitch';
 
 interface WeekOverWeekViewProps {
   logs: Record<string, WorkoutSessionLog>;
@@ -135,37 +136,21 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
           </p>
         </div>
 
-        {/* View Mode Toggle (Pill Switcher) */}
-        <div className="inline-flex rounded-full bg-surface-1 p-1 border border-hairline shrink-0">
-          <button
-            type="button"
-            onClick={() => setViewMode('sessions')}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition flex items-center gap-1.5 active:scale-95 ${
-              viewMode === 'sessions'
-                ? 'bg-white text-black shadow-sm'
-                : 'text-ink-subtle hover:text-white'
-            }`}
-          >
-            <Calendar className="w-3.5 h-3.5" />
-            <span>Past Sessions ({sessionEntries.length})</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => setViewMode('exercises')}
-            className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider transition flex items-center gap-1.5 active:scale-95 ${
-              viewMode === 'exercises'
-                ? 'bg-white text-black shadow-sm'
-                : 'text-ink-subtle hover:text-white'
-            }`}
-          >
-            <TrendingUp className="w-3.5 h-3.5" />
-            <span>Progression Map</span>
-          </button>
-        </div>
+        {/* View Mode Toggle with TabSwitch */}
+        <TabSwitch
+          tabs={[
+            { id: 'sessions', label: 'Past Sessions', icon: <Calendar className="w-3.5 h-3.5" />, count: sessionEntries.length },
+            { id: 'exercises', label: 'Progression Map', icon: <TrendingUp className="w-3.5 h-3.5" /> },
+          ]}
+          activeTab={viewMode}
+          onChange={(id) => setViewMode(id as 'sessions' | 'exercises')}
+          maxWidthClass="w-full sm:w-auto sm:min-w-[320px]"
+        />
       </div>
 
-      {sessionEntries.length === 0 ? (
-        <div className="bg-surface-1 border border-hairline p-8 text-center space-y-3">
+      <div key={viewMode} className="animate-fade-slide-up">
+        {sessionEntries.length === 0 ? (
+          <div className="bg-surface-1 border border-hairline p-8 text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-surface-2 border border-hairline mx-auto flex items-center justify-center text-white">
             <Calendar className="w-5 h-5" />
           </div>
@@ -564,6 +549,7 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
           </div>
         </div>
       )}
+      </div>
     </div>
   );
 };

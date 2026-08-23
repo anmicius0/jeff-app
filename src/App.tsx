@@ -8,6 +8,7 @@ import {
   Calendar,
 } from 'lucide-react';
 import { Header } from './components/common/Header';
+import { TabSwitch } from './components/common/TabSwitch';
 import { CurrentWorkoutPrompt } from './components/workout/CurrentWorkoutPrompt';
 import { RestTimer } from './components/workout/RestTimer';
 import { WeekOverWeekView } from './components/workout/WeekOverWeekView';
@@ -599,37 +600,16 @@ export function App() {
       {/* Main Content Area */}
       <main className="flex-1 max-w-4xl w-full mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6 pb-24">
         {/* Navigation Tabs with Fast Sliding Pill Background */}
-        <div className="flex justify-center w-full px-2">
-          <div className="relative grid grid-cols-2 p-1 rounded-full bg-surface-1 border border-hairline shadow-sm w-full max-w-sm sm:max-w-md">
-            {/* Fast Sliding Pill Indicator (150ms) */}
-            <div
-              className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-white rounded-full transition-all duration-150 ease-spring-smooth shadow-md pointer-events-none ${
-                activeTab === 'workout' ? 'left-1' : 'left-[calc(50%+3px)]'
-              }`}
-            />
-            <button
-              onClick={() => setActiveTab('workout')}
-              className={`relative z-10 py-2.5 px-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-150 flex items-center justify-center gap-1.5 sm:gap-2 active:scale-95 cursor-pointer select-none truncate ${
-                activeTab === 'workout'
-                  ? 'text-black font-bold'
-                  : 'text-ink-subtle hover:text-white'
-              }`}
-            >
-              <Dumbbell className="w-3.5 h-3.5 shrink-0" />
-              <span className="truncate">Live Workout</span>
-            </button>
-            <button
-              onClick={() => setActiveTab('progress')}
-              className={`relative z-10 py-2.5 px-3 rounded-full text-xs font-semibold uppercase tracking-wider transition-colors duration-150 flex items-center justify-center gap-1.5 sm:gap-2 active:scale-95 cursor-pointer select-none truncate ${
-                activeTab === 'progress'
-                  ? 'text-black font-bold'
-                  : 'text-ink-subtle hover:text-white'
-              }`}
-            >
-              <TrendingUp className="w-3.5 h-3.5 shrink-0" />
-              <span className="truncate">Progression History</span>
-            </button>
-          </div>
+        <div className="flex justify-center w-full">
+          <TabSwitch
+            tabs={[
+              { id: 'workout', label: 'Live Workout', icon: <Dumbbell className="w-3.5 h-3.5" /> },
+              { id: 'progress', label: 'Progression History', icon: <TrendingUp className="w-3.5 h-3.5" /> },
+            ]}
+            activeTab={activeTab}
+            onChange={(id) => setActiveTab(id as 'workout' | 'progress')}
+            maxWidthClass="max-w-sm sm:max-w-md"
+          />
         </div>
 
         {/* Animated View Container with Smooth Crossfade & Spring Slide */}
