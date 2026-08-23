@@ -2,32 +2,6 @@ import { WorkoutSessionLog } from '../types/workout';
 
 const STORAGE_KEY_LOGS = 'jeff_app_workout_logs_v1';
 const STORAGE_KEY_CURRENT_PROGRESS = 'jeff_app_current_progress_v1';
-const STORAGE_KEY_SETUP_NOTES = 'jeff_app_exercise_setup_notes_v1';
-
-export const loadExerciseSetupNotes = (): Record<string, string> => {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY_SETUP_NOTES);
-    if (!raw) return {};
-    return JSON.parse(raw);
-  } catch (err) {
-    console.error('Failed to load exercise setup notes from localStorage', err);
-    return {};
-  }
-};
-
-export const saveExerciseSetupNote = (exerciseName: string, notes: string): void => {
-  try {
-    const current = loadExerciseSetupNotes();
-    if (notes.trim()) {
-      current[exerciseName] = notes.trim();
-    } else {
-      delete current[exerciseName];
-    }
-    localStorage.setItem(STORAGE_KEY_SETUP_NOTES, JSON.stringify(current));
-  } catch (err) {
-    console.error('Failed to save exercise setup note to localStorage', err);
-  }
-};
 
 export function getTodayLocalDateString(): string {
   const d = new Date();

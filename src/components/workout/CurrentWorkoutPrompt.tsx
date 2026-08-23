@@ -12,13 +12,11 @@ import {
   Edit2,
   Plus,
   Target,
-  Sliders,
   TrendingUp,
   TrendingDown,
 } from 'lucide-react';
 import { Exercise, SetLog, PreviousPerformanceInfo } from '../../types/workout';
 import { calculateAdaptiveRecommendation, parseTargetReps, AdaptiveWeightRecommendation } from '../../utils/weightRecommendation';
-import { loadExerciseSetupNotes, saveExerciseSetupNote } from '../../utils/storage';
 import { WorkoutVideoPlayer } from './WorkoutVideoPlayer';
 
 interface CurrentWorkoutPromptProps {
@@ -83,21 +81,8 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
   const [showNotes, setShowNotes] = useState<boolean>(false);
   const [editingSetIndex, setEditingSetIndex] = useState<number | null>(null);
 
-  // Pro Bodybuilding Features State
-  // 1. Machine Setup / Pin / Seat notes
-  const [setupNotes, setSetupNotes] = useState<string>('');
-  const [isEditingSetup, setIsEditingSetup] = useState<boolean>(false);
-
-  // 2. Minimal Warm-Up State (Single 1-Tap Acclimation Set)
+  // Minimal Warm-Up State (Single 1-Tap Acclimation Set)
   const [isWarmupDone, setIsWarmupDone] = useState<boolean>(false);
-
-  // Load saved setup notes for this exercise
-  useEffect(() => {
-    const saved = loadExerciseSetupNotes();
-    const existing = saved[exercise.name] || '';
-    setSetupNotes(existing);
-    setIsEditingSetup(false);
-  }, [exercise.name]);
 
   // Sync adaptive recommendation when exercise or current active set index changes (unless user is currently editing a previous set)
   useEffect(() => {
@@ -131,12 +116,6 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
     return 120;
   };
 
-  const handleSaveSetupNotes = (text: string) => {
-    setSetupNotes(text);
-    saveExerciseSetupNote(exercise.name, text);
-    setIsEditingSetup(false);
-  };
-
   const handleCompleteCurrentSet = () => {
     const targetSetNum = editingSetIndex !== null ? editingSetIndex + 1 : currentSetIndex + 1;
     const rpeValue = parseFloat(currentTargetRpe.replace('~', '').split('–')[0]) || 8.5;
@@ -148,7 +127,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
       rpeValue,
       'Lengthened Partials',
       undefined,
-      setupNotes.trim() || undefined
+      undefined
     );
 
     // Haptic feedback on mobile
@@ -207,7 +186,7 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
             )}
           </div>
 
-          {/* Action Pills: Substitutions, Form Cues, Setup & Reset */}
+          {/* Action Pills: Substitutions, Form Cues & Reset */}
           <div className="flex flex-wrap items-center gap-2 pt-1">
             {onSelectWeakPoint && (
               <button
@@ -237,19 +216,6 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               <span>Form Cues</span>
               {showNotes ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5 text-ink-subtle" />}
             </button>
-            <button
-              type="button"
-              onClick={() => setIsEditingSetup(!isEditingSetup)}
-              className={`min-h-[38px] text-xs px-3.5 py-2 rounded-full border transition flex items-center gap-1.5 active:scale-95 cursor-pointer select-none ${
-                setupNotes
-                  ? 'bg-surface-3 border-white/40 text-white font-semibold'
-                  : 'bg-surface-2 hover:bg-surface-3 active:bg-surface-4 border border-hairline text-ink-muted hover:text-white'
-              }`}
-              title="Standardize seat, pin, bench angle, and attachment settings"
-            >
-              <Sliders className="w-3.5 h-3.5 text-white" />
-              <span>{setupNotes ? `Setup: ${setupNotes}` : 'Pin / Seat Setup'}</span>
-            </button>
             {completedSets.length > 0 && (
               <button
                 type="button"
@@ -262,38 +228,6 @@ export const CurrentWorkoutPrompt: React.FC<CurrentWorkoutPromptProps> = ({
               </button>
             )}
           </div>
-
-          {/* Machine & Setup Notes Quick Editor */}
-          {isEditingSetup && (
-            <div className="p-3.5 bg-surface-2 border border-hairline-strong space-y-2.5 animate-in fade-in">
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-white flex items-center gap-1.5">
-                  <Sliders className="w-3.5 h-3.5 text-white" />
-                  <span>Machine / Pin / Bench Setup (Saved per exercise)</span>
-                </span>
-                <span className="text-[10px] text-ink-subtle font-mono">e.g., Seat 4, Pin #3</span>
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="e.g., Seat #4, Pin 3 (lengthened load), 45° bench angle..."
-                  value={setupNotes}
-                  onChange={(e) => setSetupNotes(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleSaveSetupNotes(setupNotes);
-                  }}
-                  className="flex-1 bg-surface-3 border border-hairline-strong focus:border-white text-white rounded-md px-3 py-2 text-xs outline-none"
-                />
-                <button
-                  type="button"
-                  onClick={() => handleSaveSetupNotes(setupNotes)}
-                  className="px-4 py-2 rounded-full bg-white hover:bg-neutral-200 text-black text-xs font-bold uppercase tracking-wider transition active:scale-95"
-                >
-                  Save
-                </button>
-              </div>
-            </div>
-          )}
 
           {exercise.name.toLowerCase().includes('weak point') && onSelectWeakPoint && (
             <div className="mt-2 p-3.5 bg-surface-2 border border-hairline flex items-center justify-between gap-3">

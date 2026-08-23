@@ -10,7 +10,6 @@ import {
   ChevronDown,
   ChevronUp,
   AlertTriangle,
-  Sliders,
   Zap,
 } from 'lucide-react';
 import { WorkoutSessionLog, SetLog } from '../../types/workout';
@@ -242,7 +241,6 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                   <div className="p-4 space-y-4 divide-y divide-hairline">
                     {exercises.map((ex) => {
                       const validSets = Array.isArray(ex.sets) ? ex.sets.filter((s): s is SetLog => Boolean(s)) : [];
-                      const exerciseSetupNote = ex.setupNotes || validSets.find((s) => s.setupNotes)?.setupNotes;
 
                       return (
                         <div key={ex.exerciseId || ex.exerciseName} className="pt-3 first:pt-0 space-y-2">
@@ -250,12 +248,6 @@ export const WeekOverWeekView: React.FC<WeekOverWeekViewProps> = ({
                             <div className="flex items-center gap-2">
                               <Dumbbell className="w-3.5 h-3.5 text-white" />
                               <span className="text-xs font-semibold uppercase tracking-wider text-white">{ex.exerciseName}</span>
-                              {exerciseSetupNote && (
-                                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-surface-2 text-white border border-hairline flex items-center gap-1">
-                                  <Sliders className="w-2.5 h-2.5" />
-                                  <span>{exerciseSetupNote}</span>
-                                </span>
-                              )}
                             </div>
                             <span className="text-[10px] font-mono text-ink-subtle">
                               {validSets.length} sets logged
